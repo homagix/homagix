@@ -2,8 +2,6 @@
 import { VueShowdown } from "vue-showdown"
 import type { FullItem } from "~/types"
 
-const basePath = "https://homagix-server.justso.de"
-
 const router = useRouter()
 const route = useRoute()
 const { data: dish } = useFetch(`/api/dishes/${route.params.id}`)
@@ -12,15 +10,14 @@ const description = computed(() => dish.value?.recipe || "Noch gibt es keine Bes
 const items = computed(() => dish.value?.items as FullItem[])
 
 const mainImage = computed(() => {
-  const images = dish.value?.images
-  if (images && images.length > 0) {
-    return { "background-image": "url(" + getImageUrl(images[0]) + ")" }
+  if (dish.value?.images?.length) {
+    return { "background-image": "url(" + getImageUrl(dish.value.images[0]) + ")" }
   }
   return undefined
 })
 
 function getImageUrl(name: string) {
-  return basePath + "/images/" + name
+  return "/images/" + dish.value?.id + "/" + name
 }
 
 const additionalImages = computed(() => {

@@ -25,3 +25,4 @@ logs
 
 # app specific
 config.ts
+/public/images
