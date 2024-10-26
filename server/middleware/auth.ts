@@ -1,23 +1,21 @@
 import type { H3Event } from "h3"
 import { decode } from "jsonwebtoken"
 
-type GetTokenFn = (event: H3Event) => string | undefined
-
-export default defineEventHandler((event) => {
+export default defineEventHandler(event => {
   if (!event.path.match(/^\/api/)) {
     return
   }
 
-  const getTokenFromAuthHeader: GetTokenFn = () =>
+  const getTokenFromAuthHeader = (event: H3Event) =>
     getHeader(event, "Authorization")
       ?.match(/^Bearer (.*)$/)
       ?.at(1)
 
-  const getTokenFromCookie: GetTokenFn = () => parseCookies(event)["token"]
+  const getTokenFromCookie = (event: H3Event) => parseCookies(event)["token"]
 
   const token = [getTokenFromAuthHeader, getTokenFromCookie]
-    .map((strategy) => strategy(event))
-    .filter((t) => t)
+    .map(strategy => strategy(event))
+    .filter(t => t)
     .at(0)
 
   event.context.auth = undefined

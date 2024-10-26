@@ -1,29 +1,25 @@
 <script setup lang="ts">
 import { VueShowdown } from "vue-showdown"
-import type { FullItem } from "~/types"
+import type { Ingredient } from "~/types"
 
 const router = useRouter()
 const route = useRoute()
-const { data: dish } = useFetch(`/api/dishes/${route.params.id}`)
+const { data: dish } = useFetch(`/api/dishes/${route.params.userId}/${route.params.dishId}`)
 
 const description = computed(() => dish.value?.recipe || "Noch gibt es keine Beschreibung zu diesem Gericht")
-const items = computed(() => dish.value?.items as FullItem[])
+const ingredients = computed(() => dish.value?.ingredients || ([] as Ingredient[]))
 
 const mainImage = computed(() => {
   if (dish.value?.images?.length) {
-    return { "background-image": "url(" + getImageUrl(dish.value.images[0]) + ")" }
+    return { "background-image": "url(" + dish.value.images[0] + ")" }
   }
   return undefined
 })
 
-function getImageUrl(name: string) {
-  return "/images/" + dish.value?.id + "/" + name
-}
-
 const additionalImages = computed(() => {
   const images = dish.value?.images
   if (images && images.length > 1) {
-    return dish.value?.images.slice(1).map(i => getImageUrl(i))
+    return dish.value?.images.slice(1)
   }
   return []
 })
@@ -38,7 +34,7 @@ const additionalImages = computed(() => {
       <div v-else class="fas fa-image" />
     </div>
 
-    <ItemList :items="items" />
+    <ItemList :items="ingredients" />
   </div>
 
   <VueShowdown

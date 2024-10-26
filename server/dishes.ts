@@ -1,4 +1,4 @@
-import { Dish } from "~/types"
+import { StoredDish } from "~/types"
 
 export const dishes = [
   {
@@ -58,4 +58,4 @@ export const dishes = [
     images: ["Birnen-Crostini.jpeg"],
     ownedBy: null,
   },
-] as Dish[]
+] as StoredDish[]

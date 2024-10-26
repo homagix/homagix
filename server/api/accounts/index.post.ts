@@ -1,5 +1,5 @@
 import type { User } from "~/types"
-import { randomUUID } from "crypto"
+import { randomUUID } from "node:crypto"
 import { generateToken } from "@/server/AuthHelper.js"
 
 const storage = useStorage("data")

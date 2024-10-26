@@ -10,7 +10,7 @@ const dishes = computed(() => {
   <h2>Rezepte</h2>
   <ul v-if="status === 'success'">
     <li v-for="dish in dishes">
-      <RouterLink :to="'/recipes/' + dish.id">{{ dish.name }}</RouterLink>
+      <RouterLink :to="dish.url">{{ dish.name }} (von {{ dish.user }})</RouterLink>
     </li>
   </ul>
 </template>

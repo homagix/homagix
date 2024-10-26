@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { FullItem } from "~/types"
+import type { Ingredient } from "~/types"
 
-defineProps<{ items: FullItem[] }>()
+defineProps<{ items: Ingredient[] }>()
 </script>
 
 <template>
   <div class="box">
     <p class="title">Zutaten:</p>
     <div class="item-list">
-      <template v-for="item in items" :key="item.id">
+      <template v-for="(item, index) in items" :key="index">
         <span class="amount">{{ item.amount }}</span>
-        <span>{{ item.ingredient.unit }}</span>
-        <span>{{ item.ingredient.name }}</span>
+        <span>{{ item.unit }}</span>
+        <span>{{ item.name }}</span>
       </template>
     </div>
   </div>

@@ -26,3 +26,5 @@ logs
 # app specific
 config.ts
 /public/images
+/remote
+test.http
