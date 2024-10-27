@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto"
 import type { DishReference, User } from "~/types"
+import { isValidURL } from "~/utils/Validations"
 
 const storage = useStorage("data")
 
@@ -13,7 +14,7 @@ export default defineEventHandler(async event => {
   if (reference.name === undefined) {
     throw createError({ status: 400, message: "Missing name of dish" })
   }
-  if (!reference.url.match(/^(https?:\/\/)?([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+)(:[0-9]{1,5})?(\/[^\s]*)?$/)) {
+  if (!isValidURL(reference.url)) {
     throw createError({ status: 400, message: "Url field seems not to be a valid URL" })
   }
 

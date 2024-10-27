@@ -54,6 +54,7 @@ async function setPwd() {
       <span class="error">
         {{ messages.get() }}
       </span>
+      <button @click="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Passwort setzen</button>
     </div>
   </form>
