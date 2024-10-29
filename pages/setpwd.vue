@@ -50,10 +50,9 @@ async function setPwd() {
     </div>
     <small v-if="!valid">Das Passwort soll mindestens 8 Zeichen enthalten</small>
 
+    <div class="error">{{ messages.get() }}</div>
+
     <div class="button-list">
-      <span class="error">
-        {{ messages.get() }}
-      </span>
       <button @click="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Passwort setzen</button>
     </div>

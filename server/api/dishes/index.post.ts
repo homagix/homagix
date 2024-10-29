@@ -14,7 +14,7 @@ export default defineEventHandler(async event => {
   if (reference.name === undefined) {
     throw createError({ status: 400, message: "Missing name of dish" })
   }
-  if (!isValidURL(reference.url)) {
+  if (!isValidURL(reference.path)) {
     throw createError({ status: 400, message: "Url field seems not to be a valid URL" })
   }
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async event => {
   dishes.push({
     id: randomUUID(),
     name: reference.name.toString(),
-    url: reference.url.toString(),
+    path: reference.path.toString(),
     mainImage: reference.mainImage?.toString(),
   })
   await storage.setItem("dishes:" + user.id, dishes)

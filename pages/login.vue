@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const router = useRouter()
 const messages = useMessages()
+const token = useCookie("token")
 
 const firstName = ref("")
 const password = ref("")
@@ -9,16 +10,16 @@ const valid = computed(() => isValidPassword(password.value))
 
 async function login() {
   try {
+    token.value = undefined
     const result = await $fetch("/api/sessions", {
       method: "post",
       body: { firstName: firstName.value, password: password.value },
     })
-    const token = useCookie("token")
     token.value = result.token
     router.replace("/")
   } catch (error) {
-    const err = await (error as { response: Response }).response.json()
-    if (error === "Invalid credentials") {
+    const err = (error as { data: { message: string } }).data.message
+    if (err === "Invalid credentials") {
       messages.set("error", "Ungültige Anmeldedaten")
     } else {
       messages.set("error", "Unerwartete Antwort des Servers: " + err, messages.noTimeout)
@@ -47,10 +48,9 @@ async function login() {
       />
     </div>
 
+    <div class="error">{{ messages.get() }}</div>
+
     <div class="button-list">
-      <span class="error">
-        {{ messages.get() }}
-      </span>
       <button type="submit" :disabled="!valid">Einloggen</button>
     </div>
   </form>

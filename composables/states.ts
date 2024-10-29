@@ -1,7 +1,8 @@
 export const useUser = async () => {
-  const { data: user, refresh } = await useFetch("/api/accounts/my")
+  const token = useCookie("token")
+  const { data, refresh } = await useFetch("/api/accounts/my")
 
-  watch(useCookie("token"), () => refresh())
+  watch(token, () => refresh())
 
-  return user
+  return data
 }

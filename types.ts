@@ -5,6 +5,7 @@ export type User = {
   firstName: string
   password?: string
   passwordSet?: boolean
+  repository?: string
 }
 
 export type AppError = {
@@ -25,23 +26,17 @@ export type Ingredient = {
   group: string
 }
 
-export type Dish = {
+export type RawDish = {
   name: string
   images?: string[]
   recipe?: string
   source?: string
-  ingredients: Ingredient[]
+  items: string[]
 }
 
-export type StoredDish = {
-  id: ID
-  items: Item[]
-  last?: string
-  alwaysOnList: boolean
-  isFavorite?: boolean
-  isEditable: boolean
-  ownedBy?: ID
-} & Omit<Dish, "ingredients">
+export type Dish = Omit<RawDish, "items"> & {
+  ingredients: Ingredient[]
+}
 
 export type StoredIngredient = { id: ID } & Omit<Ingredient, "amount">
 
@@ -49,5 +44,5 @@ export type DishReference = {
   id: ID
   name: string
   mainImage?: string
-  url: string
+  path: string
 }

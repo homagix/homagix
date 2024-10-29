@@ -18,6 +18,7 @@ onBeforeUnmount(() => window.removeEventListener("click", sendClose))
     <hr v-if="!isRootRoute" />
 
     <router-link v-if="user" to="/setpwd" class="button is-light">Passwort ändern</router-link>
+    <router-link v-if="user" to="/settings" class="button is-light">Einstellungen</router-link>
     <router-link v-if="user" to="/logout" class="button is-light">Abmelden</router-link>
     <router-link v-if="!user" to="/login" class="button is-light">Einloggen</router-link>
     <router-link v-if="!user" to="/register" class="button is-primary"> Registrieren </router-link>

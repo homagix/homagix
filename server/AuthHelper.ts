@@ -7,12 +7,7 @@ const { sign } = jwt
 const expiresIn = "1d"
 
 export function generateToken(user: User) {
-  const payload = {
-    id: user.id,
-    firstName: user.firstName,
-    passwordSet: user.password !== undefined,
-  }
-  return sign(payload, getJwtSecret(), { expiresIn })
+  return sign({ id: user.id }, getJwtSecret(), { expiresIn })
 }
 
 export function validatePassword(storedPassword: string, suppliedPassword: string) {
@@ -32,4 +27,3 @@ export function hashPassword(data: Partial<User>) {
     data.password = `${buf.toString("hex")}.${salt}`
   }
 }
-
