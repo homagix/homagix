@@ -1,0 +1,6 @@
+{
+  "secrets": {
+    "jwtSecret": "super-secret",
+    "webhookSecret": "other-secret"
+  }
+}

@@ -24,7 +24,6 @@ logs
 !.env.example
 
 # app specific
-config.ts
-/public/images
+config.json
 /remote
 test.http

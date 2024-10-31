@@ -3,7 +3,7 @@ const router = useRouter()
 const user = await useUser()
 const messages = useMessages()
 
-if (!user) {
+if (!user.value) {
   router.replace("/")
 }
 
