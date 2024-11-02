@@ -14,6 +14,11 @@ export default defineNuxtConfig({
         driver: "fs",
         base: ".data/kv"
       }
+    },
+    esbuild: {
+      options: {
+        target: 'esnext'
+      }
     }
   },
   vite: {

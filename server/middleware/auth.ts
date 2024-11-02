@@ -1,3 +1,4 @@
+import type { UUID } from "node:crypto"
 import { decode } from "jsonwebtoken"
 
 export default defineEventHandler(event => {
@@ -6,18 +7,22 @@ export default defineEventHandler(event => {
   }
 
   event.context.auth = undefined
+  event.context.authStatus = "anonymous"
   const authHeader = getHeader(event, "Authorization")
   const token = authHeader?.match(/^Bearer (.*)$/)?.at(1) || parseCookies(event)["token"]
   if (token) {
     try {
-      const decoded = decode(token) as { exp: number }
-      if (decoded.exp >= Date.now() / 1000) {
-        event.context.auth = decoded
+      const decoded = decode(token) as { id: UUID; exp: number }
+      if (decoded === null) {
+        throw createError({ statusCode: 401, message: "Invalid token" })
+      } else if (decoded.exp < Date.now() / 1000) {
+        event.context.authStatus = "expiredToken"
       } else {
-        throw createError({ statusCode: 401, message: "Token expired" })
+        event.context.auth = decoded
+        event.context.authStatus = "authenticated"
       }
-    } catch {
-      throw createError({ status: 401, message: "Invalid token" })
+    } catch (error) {
+      throw createError({ statusCode: 401, message: (error as Error).message })
     }
   }
 })

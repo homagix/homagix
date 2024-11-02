@@ -18,12 +18,7 @@ async function login() {
     token.value = result.token
     router.replace("/")
   } catch (error) {
-    const err = (error as { data: { message: string } }).data.message
-    if (err === "Invalid credentials") {
-      messages.set("error", "Ungültige Anmeldedaten")
-    } else {
-      messages.set("error", "Unerwartete Antwort des Servers: " + err, messages.noTimeout)
-    }
+    messages.setServerError(error)
   }
 }
 </script>

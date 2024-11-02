@@ -6,13 +6,13 @@ const firstName = ref("")
 const valid = computed(() => firstName.value !== "")
 
 async function register() {
-  const { data, error } = await useFetch("/api/accounts", { method: "post", body: { firstName: firstName.value } })
-  if (data.value?.token) {
+  try {
+    const data = await $fetch("/api/accounts", { method: "post", body: { firstName: firstName.value } })
     const token = useCookie("token")
-    token.value = data.value.token
+    token.value = data.token
     router.replace("/setpwd")
-  } else {
-    messages.set("error", "Unerwartetes Ergebnis vom Server: " + error + ", " + data.value)
+  } catch (error) {
+    messages.setServerError(error)
   }
 }
 </script>

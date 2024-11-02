@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { data: user } = await useFetch("/api/accounts/my")
 const emit = defineEmits(["close"])
+
+const user = await useUser()
 const route = useRoute()
 
 const sendClose = () => emit("close")

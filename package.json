@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
+    "test": "echo 'tests not yet existing'",
     "test:coverage": "echo 'tests not yet existing'",
     "build": "nuxt build",
     "docker:build": "docker build .",
@@ -20,6 +21,8 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "6.6.0",
     "@types/jsonwebtoken": "9.0.7",
+    "chart.js": "4.4.6",
+    "chartjs-chart-wordcloud": "4.4.3",
     "jsonwebtoken": "9.0.2",
     "vue-showdown": "4.2.0",
     "yaml": "2.6.0"

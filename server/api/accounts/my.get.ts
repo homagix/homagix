@@ -1,16 +1,7 @@
-import { User } from "~/types"
-
-const storage = useStorage("data")
+import { getAuthenticatedUser } from "~/server/AuthHelper"
 
 export default defineEventHandler(async event => {
-  if (!event.context.auth?.id) {
-    throw createError({ statusCode: 403, message: "Not authenticated" })
-  }
-  const users = ((await storage.getItem("users")) || []) as User[]
-  const user = users.find(user => user.id === event.context.auth.id)
-  if (!user) {
-    throw createError({ statusCode: 400, message: "User not found" })
-  }
+  const user = await getAuthenticatedUser(event)
 
   return {
     ...user,

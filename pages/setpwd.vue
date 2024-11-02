@@ -14,16 +14,16 @@ const password = ref("")
 const valid = computed(() => isValidPassword(password.value))
 
 async function setPwd() {
-  const { data, error } = await useFetch("/api/accounts", {
-    method: "put",
-    body: { id: user.value?.id, password: password.value, currentPassword: currentPassword.value },
-  })
-  if (data.value?.token) {
+  try {
+    const data = await $fetch("/api/accounts", {
+      method: "put",
+      body: { id: user.value?.id, password: password.value, currentPassword: currentPassword.value },
+    })
     const token = useCookie("token")
-    token.value = data.value.token
+    token.value = data.token
     router.replace("/")
-  } else {
-    messages.set("error", "Unerwartete Antwort des Servers: " + error.value?.data.message, messages.noTimeout)
+  } catch (error) {
+    messages.setServerError(error)
   }
 }
 </script>
@@ -53,7 +53,7 @@ async function setPwd() {
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
-      <button @click="router.back">Abbrechen</button>
+      <button @click.prevent="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Passwort setzen</button>
     </div>
   </form>

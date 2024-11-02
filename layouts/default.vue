@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const user = await useUser()
+import { ref } from "vue"
+
 const menuOpen = ref(false)
 
 function toggleMenu() {
@@ -18,7 +19,7 @@ function closeMenu() {
       </router-link>
     </div>
 
-    <div class="username" v-if="user">{{ user.firstName }}</div>
+    <UserName />
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" @click.stop="toggleMenu"> ☰ </a>
   </nav>
@@ -46,10 +47,11 @@ nav {
 }
 
 h1.title {
+  font-weight: normal;
   color: #ffff00;
   position: relative;
   float: left;
-  font-size: 28px;
+  font-size: 2rem;
   margin: 0;
   padding: 0 5px 0 0;
 
@@ -57,14 +59,14 @@ h1.title {
     content: "";
     display: block;
     position: absolute;
-    left: 1px;
+    left: 1.5px;
     top: 6px;
-    width: 0.55em;
-    height: 0.55em;
-    border: 0.14em none #ffff00;
+    width: 0.5em;
+    height: 0.5em;
+    border: 0.15em none #ffff00;
     border-top-style: solid;
     border-left-style: solid;
-    transform: rotate(45deg);
+    transform: scaleY(0.66) rotate(45deg);
   }
 }
 

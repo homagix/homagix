@@ -9,23 +9,21 @@ const repository = ref(user.value?.repository || "")
 
 const valid = computed(() => repository.value === "" || isValidURL(repository.value))
 
-type ApiError = { data: { message: string } }
-
 async function save() {
   try {
     const data = await $fetch("/api/accounts", {
       method: "put",
       body: { id: user.value?.id, repository: repository.value },
     })
-    if (data.token) {
-      const token = useCookie("token")
-      token.value = data.token
-      router.replace("/")
-    } else {
-      messages.set("error", "Unerwartete Antwort des Servers: " + JSON.stringify(data), messages.noTimeout)
-    }
+    const token = useCookie("token")
+    token.value = data.token
+    router.replace("/")
   } catch (error) {
-    messages.set("error", "Unerwartete Antwort des Servers: " + (error as ApiError).data.message, messages.noTimeout)
+    if ((error as { data: { statusCode: number } }).data.statusCode === 404) {
+      messages.set("error", "Repository konnte nicht gefunden werden!", messages.noTimeout)
+    } else {
+      messages.setServerError(error)
+    }
   }
 }
 </script>
@@ -42,11 +40,10 @@ async function save() {
     </div>
     <small v-if="!valid">Das sieht nicht nach einer gültigen URL aus</small>
 
+    <div class="error">{{ messages.get() }}</div>
+
     <div class="button-list">
-      <span class="error">
-        {{ messages.get() }}
-      </span>
-      <button @click="router.back">Abbrechen</button>
+      <button @click.prevent="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Speichern</button>
     </div>
   </form>

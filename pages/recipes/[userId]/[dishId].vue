@@ -19,7 +19,7 @@ const mainImage = computed(() => {
 const additionalImages = computed(() => {
   const images = dish.value?.images
   if (images && images.length > 1) {
-    return dish.value?.images.slice(1)
+    return dish.value?.images?.slice(1)
   }
   return []
 })

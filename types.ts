@@ -1,7 +1,9 @@
-type ID = string
+import type { UUID } from "node:crypto"
+
+export type AuthStatus = "anonymous" | "authenticated" | "expiredToken"
 
 export type User = {
-  id: ID
+  id: UUID
   firstName: string
   password?: string
   passwordSet?: boolean
@@ -14,16 +16,16 @@ export type AppError = {
   link?: string
 }
 
-export type Item = {
-  id: ID
-  amount: number
-}
-
 export type Ingredient = {
   amount: number
   unit: string
   name: string
   group: string
+}
+export type IngredientEntity = {
+  id: UUID
+  name: string
+  units: string[]
 }
 
 export type RawDish = {
@@ -38,11 +40,19 @@ export type Dish = Omit<RawDish, "items"> & {
   ingredients: Ingredient[]
 }
 
-export type StoredIngredient = { id: ID } & Omit<Ingredient, "amount">
-
-export type DishReference = {
-  id: ID
+export type DishEntity = {
+  id: UUID
   name: string
-  mainImage?: string
   path: string
+  ingredients: IngredientEntity[]
+  user: User
 }
+
+export type DishListEntry = {
+  name: string
+  url: string
+  user: string
+  ingredientNames: string[]
+}
+
+export type WordCloud = [string, number][]

@@ -5,11 +5,9 @@ import "@fortawesome/fontawesome-free/scss/solid.scss"
 </script>
 
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <style lang="scss">
@@ -33,6 +31,10 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+h2 {
+  margin-top: 0;
+}
+
 .button-list {
   margin-top: 1rem;
   display: flex;
@@ -40,6 +42,10 @@ html {
   justify-content: flex-end;
   margin-top: 1rem;
   align-items: flex-end;
+
+  &.top {
+    margin-top: 0;
+  }
 }
 
 button {
@@ -90,6 +96,10 @@ input.valid:focus {
 
 button:disabled {
   cursor: not-allowed;
+}
+
+#__nuxt {
+  height: 100%;
 }
 
 .error {
