@@ -31,14 +31,15 @@ const createWorkdCloudChart = () => {
       datasets: [{
         label: 'Word Cloud',
         data: data.value!,
-        links: labels.value
+        links: labels.value,
+        fit: true
       }]
     },
     options: {
       plugins: {
         legend: { display: false },
         tooltip: { enabled: false }
-      }
+      },
     }
   })
   wordCloudCanvas.value!.onclick = (event) => {
@@ -66,12 +67,15 @@ onBeforeUnmount(destroyWordCloud)
     <AppButton @click="() => router.back()"> × </AppButton>
   </div>
 
-  <div id="canvasContainer">
+  <div id="canvas-container">
     <canvas ref="wordCloudCanvas"></canvas>
   </div>
 </template>
 
 <style scoped lang="scss">
+#canvas-container {
+  height: 100%;
+}
 canvas {
   width: 100%;
   height: 100%;
