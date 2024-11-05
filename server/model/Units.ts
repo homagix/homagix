@@ -30,4 +30,9 @@ export const unitAliases: Record<string, Unit> = {
   scheiben: "pc",
   knolle: "pc",
   knollen: "pc",
+  stengel: "pc",
+  tasse: "g",
+  tassen: "g",
+  prise: "g",
+  prisen: "g",
 }

@@ -30,12 +30,16 @@ export async function useIngredients() {
     },
 
     getIngredientsFromItems(items: string[]) {
-      return items.map(item => {
+      const errors = [] as string[]
+      const ingredients = items.map(item => {
         const [amount, unit, ...parts] = item.split(" ")
+        if (!(Number(amount) > 0)) {
+          errors.push(`Amount must be a positive number in '${item}'`)
+        }
         const name = parts.join(" ")
         const unifiedUnit = unitAliases[unit.toLowerCase()]
         if (!unifiedUnit) {
-          throw new Error(`Unknown unit '${unit}' for '${name}'`)
+          errors.push(`Unknown unit '${unit}' for '${name}'in '${item}'`)
         }
         const ingredient = ingredientNameMap[unified(name)]
         if (ingredient) {
@@ -46,6 +50,11 @@ export async function useIngredients() {
         const id = ingredientNameMap[unified(name)].id
         return { amount: Number(amount), unit, id }
       })
+
+      if (errors.length > 0) {
+        throw new Error(`The following items had errors:\n` + errors.map(m => `- ${m}`).join("\n"))
+      }
+      return ingredients
     },
   }
 

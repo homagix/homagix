@@ -2,11 +2,19 @@ import yaml from "yaml"
 import { randomUUID, type UUID } from "node:crypto"
 import { DishEntity, RawDish, User } from "~/types"
 import { useIngredients } from "./Ingredients"
+import { Unit } from "./Units"
 
 type Tree = {
   sha: string
   path: string
   url: string
+}
+
+type DishReference = {
+  id: UUID
+  path: string
+  name: string
+  ingredients: { amount: number; unit: Unit; id: UUID }[]
 }
 
 const storage = useStorage("data")
@@ -34,16 +42,22 @@ export async function useDishes() {
 
     async updateDishesFromRepository(user: User) {
       try {
-        const files = (await $fetch(`https://api.github.com/repos/${user.repository}/git/trees/main`)) as { tree: Tree[] }
-        const newDishes = await Promise.all(
-          files.tree
-            .filter(file => file.path.match(/\.ya?ml$/))
-            .map(async dish => await fromUrl(dish.url, dish.path, user.id))
-        )
+        const files = (await $fetch(`https://api.github.com/repos/${user.repository}/git/trees/main`)) as {
+          tree: Tree[]
+        }
+        const newDishes = await files.tree
+          .filter(file => file.path.match(/\.ya?ml$/))
+          .reduce(async (promise, dish) => {
+            const list = await promise
+            // await new Promise(resolve => setTimeout(resolve, 100))
+            const url = `https://raw.githubusercontent.com/${user.repository}/refs/heads/main/${dish.path}`
+            return await list.concat(await fromUrl(url, dish.path, user.id))
+          }, Promise.resolve([] as DishReference[]))
+
         await storage.setItem("dishes:" + user.id, newDishes)
         await dishClass.refresh()
       } catch (error) {
-        if ((error as { data: { status: string }}).data.status === "404") {
+        if ((error as { data: { status: string } }).data.status === "404") {
           throw createError({ status: 404, message: "Unknown repository" })
         }
         throw createError({ status: 500, message: (error as Error).message })
@@ -52,14 +66,23 @@ export async function useDishes() {
   }
 
   async function fromUrl(url: string, path: string, userId: string) {
-    const existingDishes = ((await storage.getItem("dishes:" + userId)) ?? []) as DishEntity[]
-    const entry = (await $fetch(url)) as { content: string }
-    const data = yaml.parse(Buffer.from(entry.content.replace(/\n/g, ""), "base64").toString("utf-8")) as RawDish
-    return {
-      id: existingDishes.find(dish => dish.name === data.name)?.id ?? randomUUID(),
-      path,
-      name: data.name,
-      ingredients: getIngredientsFromItems(data.items),
+    try {
+      const existingDishes = ((await storage.getItem("dishes:" + userId)) ?? []) as DishEntity[]
+      const data = yaml.parse((await $fetch(url)) as string) as RawDish
+      if (!data.name) {
+        throw new Error(`Missing name attribute`)
+      }
+      if (!data.items || !Array.isArray(data.items)) {
+        throw new Error(`'items' attribute is missing or not a list`)
+      }
+      return {
+        id: existingDishes.find(dish => dish.name === data.name)?.id ?? randomUUID(),
+        path,
+        name: data.name,
+        ingredients: getIngredientsFromItems(data.items),
+      } as DishReference
+    } catch (error) {
+      throw new Error(`Reading from '${path}' failed: ${(error as Error).message}`, { cause: error })
     }
   }
 
