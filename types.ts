@@ -44,8 +44,7 @@ export type DishEntity = {
   id: UUID
   name: string
   path: string
-  ingredients: IngredientEntity[]
-  user: User
+  ingredients: string[]
 }
 
 export type DishListEntry = {

@@ -1,8 +1,26 @@
 import { useDishes } from "./model/Dishes"
-import { useIngredients } from "./model/Ingredients"
 import { WordCloud } from "~/types"
 
-const blackList = ["Salz", "Pfeffer", "Zucker", "Butter", "Mehl", "Öl", "Olivenöl"]
+const blackList = [
+  "Salz",
+  "Pfeffer",
+  "Zucker",
+  "Butter",
+  "Mehl",
+  "Öl",
+  "Olivenöl",
+  "Zwiebeln",
+  "Knoblauch",
+  "Tomaten",
+  "Backpulver",
+  "Fenchel",
+  "Kräuter",
+  "Bratfett",
+  "milch",
+  "dill",
+  "essig",
+  "kerbel"
+].map(name => name.toLowerCase())
 
 let data: WordCloud
 
@@ -17,25 +35,18 @@ export function useWordcloud() {
 
     async refresh() {
       const { getDishes } = await useDishes()
-      const { getIngredients } = await useIngredients()
-      const ingredients = Object.fromEntries(getIngredients().map(({ id, name }) => [id, name]))
 
-      const counts = Object.entries(
-        getDishes()
-          .flatMap(({ ingredients }) => ingredients)
-          .reduce(toIdAndCountPair, {})
-      )
+      const counts = countOccurrences(getDishes().flatMap(({ ingredients }) => ingredients))
 
-      data = counts
-        .map(([id, count]) => ({ name: ingredients[id] ?? "", count }))
-        .filter(({ name }) => !blackList.includes(name))
-        .map(Object.values) as [string, number][]
+      data = Object.entries(counts).filter(([name]) => !blackList.includes(name))
     },
   }
 
   return wordCloudClass
 }
 
-function toIdAndCountPair(acc: Record<string, number>, { id }: { id: string }) {
-  return { ...acc, [id]: (acc[id] ?? 0) + 1 }
+type CountMap = Record<string, number>
+
+function countOccurrences(list: string[]) {
+  return list.reduce((acc: CountMap, entry: string) => ({ ...acc, [entry]: (acc[entry] ?? 0) + 1 }), {})
 }

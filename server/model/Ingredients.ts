@@ -1,13 +1,12 @@
 import { randomUUID, UUID } from "node:crypto"
-import { unitAliases } from "./Units"
-import { IngredientEntity, RawDish } from "~/types"
+import { IngredientEntity } from "~/types"
+import { getUnifiedUnit } from "./Units"
 
 function unified(str: string) {
-  return str.trim().toLowerCase()
-}
-
-function unique(arr: string[]) {
-  return [...new Set(arr)]
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/\s+\(.*\)$/, "")
 }
 
 const storage = useStorage("data")
@@ -29,37 +28,60 @@ export async function useIngredients() {
       return ingredients
     },
 
-    getIngredientsFromItems(items: string[]) {
+    getIngredientNamesFromItems(items: string[]) {
       const errors = [] as string[]
       const ingredients = items.map(item => {
-        const [amount, unit, ...parts] = item.split(" ")
-        if (!(Number(amount) > 0)) {
-          errors.push(`Amount must be a positive number in '${item}'`)
+        try {
+          return parseItem(item)
+        } catch (error) {
+          errors.push((error as Error).message)
         }
-        const name = parts.join(" ")
-        const unifiedUnit = unitAliases[unit.toLowerCase()]
-        if (!unifiedUnit) {
-          errors.push(`Unknown unit '${unit}' for '${name}'in '${item}'`)
-        }
-        const ingredient = ingredientNameMap[unified(name)]
-        if (ingredient) {
-          addIngredientUnit(ingredient, unit)
-        } else {
-          addIngredient({ id: randomUUID(), name, units: unique([unifiedUnit, unit]) })
-        }
-        const id = ingredientNameMap[unified(name)].id
-        return { amount: Number(amount), unit, id }
       })
 
       if (errors.length > 0) {
         throw new Error(`The following items had errors:\n` + errors.map(m => `- ${m}`).join("\n"))
       }
-      return ingredients
+      return ingredients.map(ingredient => ingredient?.name) as string[]
     },
   }
 
+  function parseItem(item: string) {
+    const [amount, unit, ...parts] = item.split(" ")
+    if (!(Number(amount) > 0)) {
+      throw new Error(`Amount must be a positive number in '${item}'`)
+    }
+    const name = parts.join(" ")
+
+    const unifiedUnit = getUnifiedUnit(unit)
+    if (!unifiedUnit) {
+      throw new Error(`Unknown unit '${unit}' for '${name}' in '${item}'`)
+    }
+
+    return upsert(name, unit, unifiedUnit)
+  }
+
+  function upsert(name: string, unit: string, unifiedUnit: string) {
+    const unifiedName = unified(name)
+    const ingredient = ingredientNameMap[unifiedName] ?? { id: randomUUID(), name: unifiedName, units: [unifiedUnit] }
+
+    if (!ingredient.units.includes(unit)) {
+      ingredient.units.push(unit)
+      setDirty()
+    }
+    if (!ingredientNameMap[unifiedName]) {
+      ingredients.push(ingredient)
+      ingredientNameMap[unifiedName] = ingredient
+      setDirty()
+    }
+
+    return ingredient
+  }
+
   async function saveIngredientList() {
-    await storage.setItem("ingredients", ingredients)
+    await storage.setItem(
+      "ingredients",
+      ingredients.sort((a, b) => a.name.localeCompare(b.name))
+    )
   }
 
   function setDirty(writeDelay = 1000) {
@@ -67,18 +89,5 @@ export async function useIngredients() {
       clearTimeout(writeTimer)
     }
     writeTimer = setTimeout(saveIngredientList, writeDelay)
-  }
-
-  async function addIngredient(ingredient: IngredientEntity) {
-    ingredients.push(ingredient)
-    ingredientNameMap[unified(ingredient.name)] = ingredient
-    setDirty()
-  }
-
-  async function addIngredientUnit(ingredient: IngredientEntity, unit: string) {
-    if (!ingredient.units.includes(unit)) {
-      ingredient.units.push(unit)
-      setDirty()
-    }
   }
 }

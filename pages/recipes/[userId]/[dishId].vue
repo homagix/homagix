@@ -49,7 +49,9 @@ const additionalImages = computed(() => {
 
   <img v-for="(img, index) in additionalImages" :key="index" :src="img" />
 
-  <button @click="() => router.push('/')"><span class="fas fa-list"></span> Zurück</button>
+  <div class="button-list">
+    <button @click="() => router.push('/')"><span class="fas fa-list"></span> Zurück</button>
+  </div>
 </template>
 
 <style lang="scss" scoped>

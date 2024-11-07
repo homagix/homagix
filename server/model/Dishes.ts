@@ -14,7 +14,7 @@ type DishReference = {
   id: UUID
   path: string
   name: string
-  ingredients: { amount: number; unit: Unit; id: UUID }[]
+  ingredients: string[]
 }
 
 const storage = useStorage("data")
@@ -23,7 +23,7 @@ let dishes: DishEntity[]
 
 export async function useDishes() {
   const users = (await storage.getItem("users")) as User[]
-  const { getIngredientsFromItems } = await useIngredients()
+  const { getIngredientNamesFromItems } = await useIngredients()
 
   function getUserById(id: UUID) {
     return users.find(user => user.id === id) ?? ({ id: id.substring(0, 8), firstName: "Unknown" } as User)
@@ -51,13 +51,13 @@ export async function useDishes() {
             const list = await promise
             // await new Promise(resolve => setTimeout(resolve, 100))
             const url = `https://raw.githubusercontent.com/${user.repository}/refs/heads/main/${dish.path}`
-            return await list.concat(await fromUrl(url, dish.path, user.id))
+            return list.concat(await fromUrl(url, dish.path, user.id))
           }, Promise.resolve([] as DishReference[]))
 
         await storage.setItem("dishes:" + user.id, newDishes)
         await dishClass.refresh()
       } catch (error) {
-        if ((error as { data: { status: string } }).data.status === "404") {
+        if ((error as { data: { status: string } }).data?.status === "404") {
           throw createError({ status: 404, message: "Unknown repository" })
         }
         throw createError({ status: 500, message: (error as Error).message })
@@ -79,7 +79,7 @@ export async function useDishes() {
         id: existingDishes.find(dish => dish.name === data.name)?.id ?? randomUUID(),
         path,
         name: data.name,
-        ingredients: getIngredientsFromItems(data.items),
+        ingredients: getIngredientNamesFromItems(data.items),
       } as DishReference
     } catch (error) {
       throw new Error(`Reading from '${path}' failed: ${(error as Error).message}`, { cause: error })
