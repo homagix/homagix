@@ -18,7 +18,7 @@ async function register() {
 </script>
 
 <template>
-  <form @submit="register">
+  <form @submit.prevent="register">
     <h2 class="title">Neu registrieren</h2>
     <p>
       Hier kannst du deinem Zugang einen Namen (z.B. deinen Vornamen oder auch einen Phantasienamen) geben. Wir sprechen
@@ -35,7 +35,7 @@ async function register() {
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
-      <button @click="router.back">Abbrechen</button>
+      <button @click.prevent="router.back">Abbrechen</button>
       <button type="submit">Registrieren</button>
     </div>
   </form>
