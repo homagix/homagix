@@ -4,5 +4,6 @@ export default defineEventHandler(async event => {
   const { firstName } = await readBody(event)
   const { register } = await useUsers()
 
-  return await register(firstName)
+  // Not yet activated to prevent new registrations
+  // return await register(firstName)
 })
