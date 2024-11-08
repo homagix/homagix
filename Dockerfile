@@ -20,8 +20,8 @@ FROM base
 
 ENV NODE_ENV=production
 
-COPY --from=build /app/.output /app/.output
+COPY --from=build /app/.output /app
 RUN chown -R node.node .
 USER node
 
-CMD [ "node", ".output/server/index.mjs" ]
+CMD [ "node", "server/index.mjs" ]
