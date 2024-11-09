@@ -8,5 +8,6 @@ export default defineEventHandler(async event => {
     repository: user.repository && `https://github.com/${user.repository}`,
     passwordSet: user.password !== undefined,
     password: undefined,
+    role: user.role,
   }
 })

@@ -27,6 +27,14 @@ export const useUser = async () => {
   return user
 }
 
+const users = ref<User[] | undefined>()
+export const useUsers = async () => {
+  if (users.value === undefined) {
+    users.value = await $fetch("/api/users")
+  }
+  return users
+}
+
 const data = ref<WordCloud | undefined>(undefined)
 export const useWordcloud = async () => {
   if (data.value === undefined) {

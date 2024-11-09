@@ -18,6 +18,10 @@ function canEditSettings() {
 function canRegister() {
   return !user.value && config.isRegistrationAllowed()
 }
+
+function isAdmin() {
+  return user.value?.role === "admin"
+}
 </script>
 
 <template>
@@ -26,12 +30,16 @@ function canRegister() {
     <!-- <router-link to="/favorites"> Favoriten </router-link> -->
 
     <hr v-if="!isRootRoute" />
+    
+    <router-link v-if="user" to="/setpwd">Passwort ändern</router-link>
+    <router-link v-if="canEditSettings()" to="/settings">Einstellungen</router-link>
+    <router-link v-if="isAdmin()" to="/userlist"> Benutzerliste </router-link>
 
-    <router-link v-if="user" to="/setpwd" class="button is-light">Passwort ändern</router-link>
-    <router-link v-if="canEditSettings()" to="/settings" class="button is-light">Einstellungen</router-link>
-    <router-link v-if="user" to="/logout" class="button is-light">Abmelden</router-link>
-    <router-link v-if="!user" to="/login" class="button is-light">Einloggen</router-link>
-    <router-link v-if="canRegister()" to="/register" class="button is-primary"> Registrieren </router-link>
+    <hr v-if="user" />
+
+    <router-link v-if="user" to="/logout">Abmelden</router-link>
+    <router-link v-if="!user" to="/login">Einloggen</router-link>
+    <router-link v-if="canRegister()" to="/register"> Registrieren </router-link>
   </div>
 </template>
 

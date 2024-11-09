@@ -18,6 +18,10 @@ export async function useUsers() {
   const { updateDishesFromRepository } = await useDishes()
 
   return {
+    getAll() {
+      return users
+    },
+
     getById(id: UUID) {
       return users.find(user => user.id === id)
     },
