@@ -92,10 +92,9 @@ h1.title {
 
 main {
   max-width: 800px;
-  height: 100%;
   overflow: auto;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 1rem 0.7rem;
+  padding: 1rem 0.7rem 4rem;
 }
 </style>
