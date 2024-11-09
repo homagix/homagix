@@ -55,3 +55,14 @@ export type DishListEntry = {
 }
 
 export type WordCloud = [string, number][]
+
+export interface PublicConfiguration {
+  allowRegistration: boolean
+}
+
+export interface SecretConfiguration {
+  jwtSecret: string
+  webhookSecret: string
+}
+
+export type Configuration = PublicConfiguration & { secrets: SecretConfiguration }

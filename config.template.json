@@ -1,4 +1,5 @@
 {
+  "allowRegistration": false,
   "secrets": {
     "jwtSecret": "super-secret",
     "webhookSecret": "other-secret"

@@ -1,26 +1,31 @@
 <script setup lang="ts">
+
 const router = useRouter()
 const messages = useMessages()
+const { isRegistrationAllowed } = await useConfiguration()
 
 const firstName = ref("")
 const valid = computed(() => firstName.value !== "")
 
-// async function register() {
-//   try {
-//     const data = await $fetch("/api/accounts", { method: "post", body: { firstName: firstName.value } })
-//     const token = useCookie("token")
-//     token.value = data.token
-//     router.replace("/setpwd")
-//   } catch (error) {
-//     messages.setServerError(error)
-//   }
-// }
+async function register() {
+  if (!isRegistrationAllowed()) {
+    try {
+      const data = await $fetch("/api/accounts", { method: "post", body: { firstName: firstName.value } })
+      const token = useCookie("token")
+      token.value = data.token
+      router.replace("/setpwd")
+    } catch (error) {
+      messages.setServerError(error)
+    }
+  }
+}
 </script>
 
 <template>
   <form submit.prevent="register">
     <h2 class="title">Neu registrieren</h2>
-    <div class="error">
+
+    <div v-if="!isRegistrationAllowed()" class="box error">
       <p>Aktuell ist noch keine Neuregistrierung möglich!</p>
       <p>Komm' doch später wieder.</p>
     </div>
@@ -45,3 +50,11 @@ const valid = computed(() => firstName.value !== "")
     </div>
   </form>
 </template>
+
+<style lang="scss" scoped>
+.box {
+  border: 2px solid red;
+  border-radius: 6px;
+  padding: 0 1rem;
+}
+</style>

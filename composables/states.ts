@@ -1,4 +1,4 @@
-import { type WordCloud, type User, type DishListEntry } from "~/types"
+import { type WordCloud, type User, type DishListEntry, type PublicConfiguration } from "~/types"
 
 const user = ref<User | null>(null)
 export const useUser = async () => {
@@ -47,5 +47,15 @@ export const useDishes = async () => {
       const lcIngredient = ingredientName.toLowerCase()
       return dishes.value?.filter(dish => dish.ingredientNames.some(name => name.localeCompare(lcIngredient) === 0))
     },
+  }
+}
+
+const config = ref<PublicConfiguration | undefined>()
+export const useConfiguration = async () => {
+  if (config.value === undefined) {
+    config.value = await $fetch("/api/configurations")
+  }
+  return {
+    isRegistrationAllowed: () => Boolean(config.value?.allowRegistration),
   }
 }
