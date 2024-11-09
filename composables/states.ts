@@ -1,4 +1,4 @@
-import { type WordCloud, type User, type DishListEntry, type PublicConfiguration } from "~/types"
+import { type WordCloud, type User, type DishListEntry, type PublicConfiguration, type Dish } from "~/types"
 
 const user = ref<User | null>(null)
 export const useUser = async () => {

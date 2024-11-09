@@ -31,26 +31,13 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
-h2 {
-  margin-top: 0;
-}
-
 .button-list {
   margin-top: 1rem;
   display: flex;
   gap: 5px;
   justify-content: flex-end;
-  margin-top: 1rem;
   align-items: flex-end;
   position: relative;
-
-  &.top {
-    margin-top: 0;
-
-    & + * {
-      margin-top: -1.6rem;
-    }
-  }
 }
 
 button {

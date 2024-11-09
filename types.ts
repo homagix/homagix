@@ -52,6 +52,7 @@ export type DishEntity = {
 export type DishListEntry = {
   name: string
   url: string
+  ingredientNames: string[]
   userName: string
 }
 

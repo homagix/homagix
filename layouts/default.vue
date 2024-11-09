@@ -91,10 +91,26 @@ h1.title {
 }
 
 main {
+  position: relative;
   max-width: 800px;
+  min-height: 100vh;
   overflow: auto;
   box-sizing: border-box;
   margin: 0 auto;
   padding: 1rem 0.7rem 4rem;
+
+  :deep(.top-buttons) {
+    position: absolute;
+    right: 0;
+  }
+
+  :deep(.bottom-buttons) {
+    margin-top: 1rem;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    position: relative;
+  }
 }
 </style>

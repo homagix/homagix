@@ -8,7 +8,7 @@ function gotoWordCloud() {
 </script>
 
 <template>
-  <div class="button-list top">
+  <div class="top-buttons">
     <AppButton @click="gotoWordCloud" id="wordcloud-button"> 🔍 </AppButton>
   </div>
 
