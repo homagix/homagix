@@ -33,7 +33,7 @@ export async function useUsers() {
     },
 
     async register(firstName: string) {
-      const user: User = { id: randomUUID(), firstName }
+      const user: User = { id: randomUUID(), firstName, role: "reader" }
       users.push(user)
       await storage.setItem("users", users)
       return { token: generateToken(user) }
@@ -45,10 +45,11 @@ export async function useUsers() {
         throw createError({ statusCode: 401, message: "User not found" })
       }
       const repoIsModified = data.repository !== user.repository
-      updateDefinedFields(user, data, writableFields)
+      const fields = writableFields.filter(f => user.role !== "reader" || f !== "repository")
+      updateDefinedFields(user, data, fields)
       await storage.setItem("users", users)
 
-      if (repoIsModified) {
+      if (repoIsModified && user.role !== "reader") {
         await updateDishesFromRepository(user)
       }
     },

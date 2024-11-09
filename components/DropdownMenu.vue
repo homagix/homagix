@@ -3,12 +3,21 @@ const emit = defineEmits(["close"])
 
 const user = await useUser()
 const route = useRoute()
+const config = await useConfiguration()
 
 const sendClose = () => emit("close")
 const isRootRoute = computed(() => route.path === "/")
 
 onBeforeMount(() => window.addEventListener("click", sendClose))
 onBeforeUnmount(() => window.removeEventListener("click", sendClose))
+
+function canEditSettings() {
+  return user.value && user.value.role !== "reader"
+}
+
+function canRegister() {
+  return !user.value && config.isRegistrationAllowed()
+}
 </script>
 
 <template>
@@ -19,10 +28,10 @@ onBeforeUnmount(() => window.removeEventListener("click", sendClose))
     <hr v-if="!isRootRoute" />
 
     <router-link v-if="user" to="/setpwd" class="button is-light">Passwort ändern</router-link>
-    <router-link v-if="user" to="/settings" class="button is-light">Einstellungen</router-link>
+    <router-link v-if="canEditSettings()" to="/settings" class="button is-light">Einstellungen</router-link>
     <router-link v-if="user" to="/logout" class="button is-light">Abmelden</router-link>
     <router-link v-if="!user" to="/login" class="button is-light">Einloggen</router-link>
-    <router-link v-if="!user" to="/register" class="button is-primary"> Registrieren </router-link>
+    <router-link v-if="canRegister()" to="/register" class="button is-primary"> Registrieren </router-link>
   </div>
 </template>
 

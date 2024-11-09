@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const router = useRouter()
 const messages = useMessages()
 const { isRegistrationAllowed } = await useConfiguration()
@@ -22,31 +21,33 @@ async function register() {
 </script>
 
 <template>
-  <form submit.prevent="register">
+  <form @submit.prevent="register">
     <h2 class="title">Neu registrieren</h2>
 
     <div v-if="!isRegistrationAllowed()" class="box error">
-      <p>Aktuell ist noch keine Neuregistrierung möglich!</p>
-      <p>Komm' doch später wieder.</p>
+      <p>Aktuell ist keine Neuregistrierung möglich!</p>
+      <p>Der Administrator hat diese Funktion ausgeschaltet.</p>
     </div>
 
-    <p>
-      Hier kannst du deinem Zugang einen Namen (z.B. deinen Vornamen oder auch einen Phantasienamen) geben. Wir sprechen
-      dich dann künftig damit an.
-    </p>
+    <template v-else>
+      <p>
+        Hier kannst du deinem Zugang einen Namen (z.B. deinen Vornamen oder auch einen Phantasienamen) geben. Wir
+        sprechen dich dann künftig damit an.
+      </p>
 
-    <div class="fields">
-      <label>
-        Name
-        <input v-model="firstName" type="text" required :class="{ valid }" />
-      </label>
-    </div>
+      <div class="fields">
+        <label>
+          Name
+          <input v-model="firstName" type="text" required :class="{ valid }" />
+        </label>
+      </div>
 
-    <div class="error">{{ messages.get() }}</div>
+      <div class="error">{{ messages.get() }}</div>
+    </template>
 
     <div class="button-list">
       <button @click.prevent="router.back">Abbrechen</button>
-      <button type="submit">Registrieren</button>
+      <button v-if="isRegistrationAllowed()" type="submit">Registrieren</button>
     </div>
   </form>
 </template>

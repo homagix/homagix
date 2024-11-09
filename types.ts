@@ -1,6 +1,7 @@
 import type { UUID } from "node:crypto"
 
 export type AuthStatus = "anonymous" | "authenticated" | "expiredToken"
+export type Role = "reader" | "author" | "admin"
 
 export type User = {
   id: UUID
@@ -8,6 +9,7 @@ export type User = {
   password?: string
   passwordSet?: boolean
   repository?: string
+  role: Role
 }
 
 export type AppError = {
