@@ -42,9 +42,14 @@ h2 {
   justify-content: flex-end;
   margin-top: 1rem;
   align-items: flex-end;
+  position: relative;
 
   &.top {
     margin-top: 0;
+
+    & + * {
+      margin-top: -1.6rem;
+    }
   }
 }
 

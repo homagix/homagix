@@ -11,12 +11,12 @@ const emit = defineEmits(["click"])
 <style lang="scss" scoped>
 a {
   display: inline-block;
-  font-size: 120%;
+  font-size: 150%;
   line-height: 1.5;
   cursor: pointer;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   text-align: center;
 
   &:hover {

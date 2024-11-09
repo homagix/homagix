@@ -49,6 +49,10 @@ const additionalImages = computed(() => {
 
   <img v-for="(img, index) in additionalImages" :key="index" :src="img" />
 
+  <small v-if="dish?.source">Quelle: {{ dish.source }}</small>
+  <br />
+  <small v-if="dish?.userName">Eingetragen von {{ dish?.userName }}</small>
+
   <div class="button-list">
     <button @click="() => router.push('/')"><span class="fas fa-list"></span> Zurück</button>
   </div>

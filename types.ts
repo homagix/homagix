@@ -38,6 +38,7 @@ export type RawDish = {
 
 export type Dish = Omit<RawDish, "items"> & {
   ingredients: Ingredient[]
+  userName: string
 }
 
 export type DishEntity = {
@@ -45,13 +46,13 @@ export type DishEntity = {
   name: string
   path: string
   ingredients: string[]
+  user: User
 }
 
 export type DishListEntry = {
   name: string
   url: string
-  user: string
-  ingredientNames: string[]
+  userName: string
 }
 
 export type WordCloud = [string, number][]

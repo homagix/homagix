@@ -63,7 +63,7 @@ onBeforeUnmount(destroyWordCloud)
 </script>
 
 <template>
-  <div class="button-list">
+  <div class="button-list top">
     <AppButton @click="() => router.back()"> × </AppButton>
   </div>
 

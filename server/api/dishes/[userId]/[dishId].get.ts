@@ -21,5 +21,5 @@ export default defineEventHandler(async event => {
   const basePath = url.slice(0, url.lastIndexOf("/") + 1)
   const images = dish.images?.map(image => basePath + image) || []
 
-  return { ...dish, ingredients, items: undefined, images } as Dish
+  return { ...dish, ingredients, items: undefined, images, userName: user.firstName } as Dish
 })

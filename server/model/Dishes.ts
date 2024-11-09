@@ -2,7 +2,6 @@ import yaml from "yaml"
 import { randomUUID, type UUID } from "node:crypto"
 import { DishEntity, RawDish, User } from "~/types"
 import { useIngredients } from "./Ingredients"
-import { Unit } from "./Units"
 
 type Tree = {
   sha: string
@@ -48,10 +47,8 @@ export async function useDishes() {
         const newDishes = await files.tree
           .filter(file => file.path.match(/\.ya?ml$/))
           .reduce(async (promise, dish) => {
-            const list = await promise
-            // await new Promise(resolve => setTimeout(resolve, 100))
             const url = `https://raw.githubusercontent.com/${user.repository}/refs/heads/main/${dish.path}`
-            return list.concat(await fromUrl(url, dish.path, user.id))
+            return (await promise).concat(await fromUrl(url, dish.path, user.id))
           }, Promise.resolve([] as DishReference[]))
 
         await storage.setItem("dishes:" + user.id, newDishes)
