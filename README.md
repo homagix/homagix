@@ -35,41 +35,29 @@ The Webhook's URL is https://<your-homagix-server>/api/webhooks
 
 Each dish's recipe file has a similar structure like in the following example:
 
+## File format
+
+Recipe files are stored as yaml in the following structure:
+
 ```yaml
 ---
-name: Birnen Crostini
-source: Yotam Ottolenghi aus dem Buch „Genussvoll vegetarisch“
+name: title of dish
+source: An optional field containing a reference from where the recipe is taken
 items:
-  - 20 L Olivenöl
-  - 0.5 TL Salz
-  - 2 Zehen Knoblauch
-  - 10 TL Zucker
-  - 0.5 Bund Petersilie
-  - 2 Stk Birnen
-  - 0.5 Stk Pfeffer
-  - 500 g Sauerteigbrot
-  - 1 Stk Zitronen
-  - 100 g Ziegenfrischkäse
+  - <amount> <unit> <name of ingredient>
+  - ...
+  - with <amount a decimal number in english notation (optional decimal point '.')
+  - and <unit> one of the known units (see below)
 recipe: >-
-  Den Backofen auf 200° vorheizen.
-
-  Pinienkerne mit 4 EL Olivenöl, Knoblauch, Prise Salz und etwas schwarzem Pfeffer im kleinen Häcksler mixen. Es entsteht eine grobe, feuchte Paste.
-
-  Die Brotscheiben auf einer Seite mit der Paste bestreichen. Auf das Backblech legen und etwa 10 min im Ofen rösten, bis sie etwas Farbe angenommen haben. Herausnehmen und kurz abkühlen lassen.
-
-  Mit einem scharfen Messer die Rundungen der Birnen gerade schneiden. Dann die Birnen der Länge nach in jeweils vier dicke Scheiben schneiden. Das Kerngehäuse mit einem spitzen Messer entfernen.
-
-  Die Birnenscheiben in eine Schüssel legen. Das restliche Olivenöl mit dem Zucker, dem Zitronensaft sowie einer Prise Salz verrühren und behutsam mit den Birnen vermischen.
-
-  Die Birnenscheiben auf einer heißen (am besten Grill-) Pfanne erhitzen. Ca. 1 Min bis sie sich bräunen. Ottolenghi schafft es in seiner Grillpfanne, dass sie braune Grillstreifen bekommen. Vorsichtig mit der Zange aus der Pfanne nehmen und sie dabei möglichst nicht beschädigen.
-
-  Die Birnenscheiben auf die Brote geben. Den Käse darauf verteilen. Diese Crostini im Ofen 3-4 min erwärmen, damit der Käse leicht schmilzt.
-
-  Mit Kerbel- oder Petersilienblättern garnieren und direkt servieren.
+  Markdown text describing the steps to cook the ingredients to the dish.
 images:
-  - Birnen-Crostini.jpeg
+  - list of file names, relative to this yaml file. The first file name is taken as the main image
 ```
 
-The images can be placed besides these recipe files, but can also be placed in a separate folder.
-Just make sure that a relative path is specified.
-The first picture will be used as the main picture and be displayed in the top of the recipe page. All other images (if they exist) will be shown below.
+## Known units
+
+The units defined in [this list](units.yaml) are currently known.
+The list shows alias names for ISO units and an amount (which is mostly '1').
+This might not always be optimal (what amount of an ISO unit might a cup be? It surely depends on what is measured).
+
+If you need more, feel free to [open an issue](issues).

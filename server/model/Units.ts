@@ -1,49 +1,13 @@
+import { parse } from "yaml"
+import { readFileSync } from "node:fs"
+
 export type Unit = "pc" | "g" | "ml"
 
-export const units: Record<Unit, string[]> = {
-  pc: [
-    "pc",
-    "ml",
-    "stk",
-    "pkg",
-    "kopf",
-    "köpfe",
-    "glas",
-    "gläser",
-    "dose",
-    "dosen",
-    "zehe",
-    "zehen",
-    "bund",
-    "bünde",
-    "würfel",
-    "scheibe",
-    "scheiben",
-    "knolle",
-    "knollen",
-    "stengel",
-    "zweig",
-    "zweige",
-    "Päckchen",
-  ],
-  g: [
-    "g",
-    "gramm",
-    "kg",
-    "kilo",
-    "teelöffel",
-    "tl",
-    "esslöffel",
-    "el",
-    "tasse",
-    "tassen",
-    "prise",
-    "prisen",
-    "cm",
-    "becher",
-  ],
-  ml: ["ml", "l"],
-}
+export const units = Object.entries(parse(readFileSync("units.yaml").toString())).reduce((acc, [alias, definition]) => {
+  const [amount, unit] = (definition as string).split(" ") as [number, Unit]
+  acc[unit] = (acc[unit] ?? []).concat(alias)
+  return acc
+}, {} as Record<Unit, string[]>)
 
 export function getUnifiedUnit(name: string) {
   const lcName = name.toLowerCase()
