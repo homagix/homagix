@@ -1,9 +1,12 @@
 import { parse } from "yaml"
-import { readFileSync } from "node:fs"
 
 export type Unit = "pc" | "g" | "ml"
 
-export const units = Object.entries(parse(readFileSync("units.yaml").toString())).reduce((acc, [alias, definition]) => {
+const storage = useStorage("assets:server")
+
+const unitsFileContent = (await storage.getItem("units.yaml")) as string
+
+export const units = Object.entries(parse(unitsFileContent)).reduce((acc, [alias, definition]) => {
   const [amount, unit] = (definition as string).split(" ") as [number, Unit]
   acc[unit] = (acc[unit] ?? []).concat(alias)
   return acc

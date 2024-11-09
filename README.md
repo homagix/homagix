@@ -56,7 +56,7 @@ images:
 
 ## Known units
 
-The units defined in [this list](units.yaml) are currently known.
+The units defined in [this list](server/assets/units.yaml) are currently known.
 The list shows alias names for ISO units and an amount (which is mostly '1').
 This might not always be optimal (what amount of an ISO unit might a cup be? It surely depends on what is measured).
 
