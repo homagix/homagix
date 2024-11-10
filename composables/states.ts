@@ -30,9 +30,18 @@ export const useUser = async () => {
 const users = ref<User[] | undefined>()
 export const useUsers = async () => {
   if (users.value === undefined) {
-    users.value = await $fetch("/api/users")
+    users.value = await $fetch("/api/accounts")
   }
-  return users
+  return {
+    getAll() {
+      return users
+    },
+
+    async update(id: string, user: Partial<User>) {
+      const modifiedUser = await $fetch(`/api/accounts/${id}`, { method: "PUT", body: user }) as User
+      users.value = users.value?.map(u => u.id === modifiedUser.id ? modifiedUser : u)
+    },
+  }
 }
 
 const data = ref<WordCloud | undefined>(undefined)

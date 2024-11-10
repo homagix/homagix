@@ -22,12 +22,10 @@ export function validatePassword(storedPassword: string, suppliedPassword: strin
   return timingSafeEqual(hashedPasswordBuf, suppliedPasswordBuf)
 }
 
-export function hashPassword(data: Partial<User>) {
-  if (data.password) {
-    const salt = randomBytes(16).toString("hex")
-    const buf = scryptSync(data.password, salt, 64) as Buffer
-    data.password = `${buf.toString("hex")}.${salt}`
-  }
+export function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex")
+  const buf = scryptSync(password, salt, 64) as Buffer
+  return `${buf.toString("hex")}.${salt}`
 }
 
 export async function getAuthenticatedUser(event: H3Event) {

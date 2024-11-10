@@ -1,7 +1,9 @@
 import type { UUID } from "node:crypto"
 
 export type AuthStatus = "anonymous" | "authenticated" | "expiredToken"
-export type Role = "reader" | "author" | "admin"
+
+export const roles = ["reader", "author", "admin"] as const
+export type Role = typeof roles[number]
 
 export type User = {
   id: UUID
@@ -11,6 +13,10 @@ export type User = {
   repository?: string
   role: Role
 }
+
+export const writableUserFields = ["firstName", "repository", "password", "role"] as const
+export type WritableUserFields = (typeof writableUserFields)[number]
+export type UpdateUserData = Partial<Pick<User, WritableUserFields> & { currentPassword?: string }>
 
 export type AppError = {
   message: string
