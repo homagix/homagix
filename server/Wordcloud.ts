@@ -19,7 +19,9 @@ const blackList = [
   "milch",
   "dill",
   "essig",
-  "kerbel"
+  "kerbel",
+  "wasser",
+  
 ].map(name => name.toLowerCase())
 
 let data: WordCloud

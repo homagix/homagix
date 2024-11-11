@@ -1,5 +1,5 @@
 import { randomUUID, type UUID } from "node:crypto"
-import { UpdateUserData, User, WritableUserFields, writableUserFields } from "~/types"
+import { UpdateUserData, User, writableUserFields } from "~/types"
 import { generateToken, hashPassword, validatePassword } from "../AuthHelper"
 import { useDishes } from "./Dishes"
 import { isValidURL } from "~/utils/Validations"

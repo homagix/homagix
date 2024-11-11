@@ -8,6 +8,7 @@ const messages = useMessages()
 const repository = ref(user.value?.repository || "")
 
 const valid = computed(() => repository.value === "" || isValidURL(repository.value))
+const webhookURL = computed(() => `${window.origin}/api/webhooks/`)
 
 async function save() {
   try {
@@ -26,6 +27,13 @@ async function save() {
     }
   }
 }
+
+function copy2Clipboard(event: Event) {
+  const el = event.target as HTMLElement
+  el.style.backgroundColor = "lightgrey"
+  setTimeout(() => (el.style.backgroundColor = ""), 500)
+  navigator.clipboard.writeText(webhookURL.value + user.value!.id)
+}
 </script>
 
 <template>
@@ -40,6 +48,17 @@ async function save() {
     </div>
     <small v-if="!valid">Das sieht nicht nach einer gültigen URL aus</small>
 
+    <div v-if="repository">
+      <p>
+        Wenn du Änderungen an deinen Rezepten direkt hier aktualisieren willst, kannst du in den Einstellungen deines
+        Repositorys folgenden Webhook eintragen:
+      </p>
+
+      <div class="paste-box" @click="copy2Clipboard">
+        <code>{{ webhookURL }}{{ user?.id }}</code>
+      </div>
+    </div>
+
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
@@ -52,9 +71,30 @@ async function save() {
 <style lang="scss" scoped>
 form {
   max-width: 600px;
+  position: relative;
 }
 
 input + small {
   display: block;
+}
+
+.paste-box {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+
+  &::after {
+    content: "📋";
+    display: inline-block;
+    font-size: 120%;
+  }
+}
+
+code {
+  padding: 5px 10px;
+  border: 1px solid grey;
+  overflow: auto;
+  display: block;
+  white-space: nowrap;
 }
 </style>
