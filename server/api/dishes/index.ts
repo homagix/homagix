@@ -12,6 +12,7 @@ export default defineEventHandler(async () => {
         url: `/recipes/${dish.user.id}/${dish.id}`,
         ingredientNames: dish.ingredients,
         userName: dish.user.firstName ?? dish.user.id.substring(0, 8),
+        userId: dish.user.id,
       })
     ),
   }

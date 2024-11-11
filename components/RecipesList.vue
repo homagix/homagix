@@ -1,22 +1,18 @@
 <script setup lang="ts">
+import type { UUID } from "node:crypto"
 import type { DishListEntry } from "~/types"
 
-const props = defineProps<{ ingredient?: string }>()
+const props = defineProps<{ ingredientName?: string; userId?: UUID }>()
 
-const router = useRouter()
-const { allDishes, byIngredientName } = await useDishes()
+const { filteredDishes } = await useDishes()
 
 const dishes = computed(() => {
-  const dishes = props.ingredient ? byIngredientName(props.ingredient) : allDishes()
-  return dishes?.map(enrichWithSource)
+  const dishes = filteredDishes(props)
+  return dishes?.map((dish, index, dishes) => {
+    const nonUniqueName = dishes.some((d, i) => d.name === dish.name && index !== i)
+    return { ...dish, nonUniqueName }
+  })
 })
-
-const titleAddition = computed(() => (props.ingredient ? `mit ${props.ingredient}` : ""))
-
-function enrichWithSource(dish: DishListEntry, index: number, dishes: DishListEntry[]) {
-  const nonUniqueName = dishes.some((d, i) => d.name === dish.name && index !== i)
-  return { ...dish, nonUniqueName }
-}
 
 function getDishName(dish: DishListEntry & { nonUniqueName?: boolean }) {
   if (dish.nonUniqueName) {
@@ -27,19 +23,14 @@ function getDishName(dish: DishListEntry & { nonUniqueName?: boolean }) {
 </script>
 
 <template>
-  <h2>
-    Rezepte
-    {{ titleAddition }}
-    <sup>
-      <AppButton v-if="ingredient" @click="() => router.push('/')" class="small"> × </AppButton>
-    </sup>
-  </h2>
-
-  <ul v-if="dishes">
-    <li v-for="dish in dishes.map(enrichWithSource)">
+  <ul v-if="(dishes?.length ?? 0) > 0">
+    <li v-for="dish in dishes">
       <RouterLink :to="dish.url">{{ getDishName(dish) }}</RouterLink>
     </li>
   </ul>
+  <div v-else class="warning">
+    Keine Rezepte gefunden!
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -53,5 +44,9 @@ li {
 a {
   text-decoration: none;
   color: #333333;
+}
+.warning {
+  font-size: 120%;
+  margin-top: 1rem;
 }
 </style>

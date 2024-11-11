@@ -44,6 +44,8 @@ export type RawDish = {
   items: string[]
 }
 
+export type DishFilter = { ingredientName?: string; userId?: UUID }
+
 export type Dish = Omit<RawDish, "items"> & {
   ingredients: Ingredient[]
   userName: string
@@ -62,6 +64,7 @@ export type DishListEntry = {
   url: string
   ingredientNames: string[]
   userName: string
+  userId: UUID
 }
 
 export type WordCloud = [string, number][]
