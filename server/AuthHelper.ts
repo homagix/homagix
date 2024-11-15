@@ -30,7 +30,8 @@ export function hashPassword(password: string) {
 
 export async function getAuthenticatedUser(event: H3Event) {
   if (event.context.authStatus !== "authenticated") {
-    throw createError({ statusCode: 401, message: "Not authenticated" })
+    const message = event.context.authStatus === "expiredToken" ? "Token expired" : "Not Authenticated"
+    throw createError({ statusCode: 401, message })
   }
   const { getById } = await useUsers()
   const user = getById(event.context.auth!.id)

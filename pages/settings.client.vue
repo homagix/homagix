@@ -2,7 +2,7 @@
 import { isValidURL } from "~/utils/Validations"
 
 const router = useRouter()
-const user = await useUser()
+const user = useUser()
 const messages = useMessages()
 
 const repository = ref(user.value?.repository || "")

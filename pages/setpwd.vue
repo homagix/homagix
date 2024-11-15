@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const router = useRouter()
-const user = await useUser()
+const user = useUser()
 const messages = useMessages()
 
 if (!user.value) {

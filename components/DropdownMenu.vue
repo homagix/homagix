@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["close"])
 
-const user = await useUser()
+const user = useUser()
 const route = useRoute()
 const config = await useConfiguration()
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const router = useRouter()
 const route = useRoute()
-const user = await useUser()
+const user = useUser()
 
 const onlyOwn = ref(false)
 

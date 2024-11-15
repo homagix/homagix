@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const user = await useUser()
+const user = useUser()
 </script>
 
 <template>

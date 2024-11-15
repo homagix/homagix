@@ -1,30 +1,28 @@
-import type { UUID } from "node:crypto"
+import type { WordCloud, User, DishListEntry, PublicConfiguration, DishFilter } from "~/types"
 
-import { type WordCloud, type User, type DishListEntry, type PublicConfiguration, type DishFilter } from "~/types"
-
-const user = ref<User | null>(null)
-export const useUser = async () => {
+const user = ref<User | undefined | null>()
+export const useUser = () => {
   const token = useCookie("token")
 
   async function fetchUser() {
     try {
+      if (!token.value) {
+        user.value = null
+        return
+      }
       const data = await $fetch("/api/accounts/my")
       user.value = data
     } catch (err) {
       user.value = null
-      console.error((err as { data: { message: string } }).data?.message ?? (err as Error).message)
+      const message = (err as { data: { message: string } }).data?.message ?? (err as Error).message
+      console.error(message)
+      if (message === "Token expired") {
+        token.value = undefined
+      }
     }
   }
 
-  watch(token, async (newToken, oldToken) => {
-    if (newToken !== oldToken) {
-      await fetchUser()
-    }
-  })
-
-  if (user.value === null) {
-    await fetchUser()
-  }
+  watch(token, async newToken => await fetchUser(), { immediate: true })
 
   return user
 }
