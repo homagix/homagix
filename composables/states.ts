@@ -79,9 +79,13 @@ export const useConfiguration = async () => {
   }
 }
 
-const favorites = ref<Set<UUID> | undefined>(new Set(await callApi("/api/favorites")))
+const favorites = ref<Set<UUID> | undefined>()
 
 export const useFavorites = async () => {
+  if (favorites.value === undefined) {
+    favorites.value = new Set(await callApi("/api/favorites"))
+  }
+  
   return {
     async set(dishId: UUID) {
       await callApi("/api/favorites/" + dishId, { method: "post" })
