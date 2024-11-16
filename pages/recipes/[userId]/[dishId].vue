@@ -84,6 +84,7 @@ const additionalImages = computed(() => {
     color: #ddd;
     z-index: 0;
     background-size: cover;
+    background-position: center;
   }
 }
 </style>

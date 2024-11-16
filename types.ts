@@ -60,11 +60,12 @@ export type DishEntity = {
 }
 
 export type DishListEntry = {
+  id: UUID
   name: string
-  url: string
   ingredientNames: string[]
   userName: string
   userId: UUID
+  favorite?: boolean
 }
 
 export type WordCloud = [string, number][]

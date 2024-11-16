@@ -1,15 +1,26 @@
 <script setup lang="ts">
+import type { DishListEntry } from "~/types"
+
 const router = useRouter()
 const route = useRoute()
 const user = useUser()
-
-const onlyOwn = ref(false)
 
 function gotoWordCloud() {
   router.push("/ingredients-wordcloud")
 }
 
 const titleAddition = computed(() => (route.query.ingredient ? `mit ${route.query.ingredient}` : ""))
+
+type DishFilter = (dish: DishListEntry) => boolean
+type Tab = { id: string; label: string; filter: DishFilter }
+
+const tabs: Tab[] = [
+  { id: "all", label: "Alle", filter: () => true },
+  { id: "fav", label: "Favoriten", filter: dish => dish.favorite === true },
+  { id: "my", label: "Eigene", filter: dish => dish.userId === user.value?.id },
+]
+
+const selectedTab = ref(tabs[0])
 </script>
 
 <template>
@@ -25,13 +36,16 @@ const titleAddition = computed(() => (route.query.ingredient ? `mit ${route.quer
     </sup>
   </h2>
 
-  <label v-if="user"> <input type="checkbox" v-model="onlyOwn" /> Nur eigene Rezepte anzeigen </label>
+  <AppTabs :tabs="tabs" labelField="label" v-model="selectedTab" />
 
-  <RecipesList :ingredient-name="route.query.ingredient as string" :user-id="onlyOwn ? user?.id : undefined" />
+  <RecipesList :ingredient-name="route.query.ingredient as string" :filter="selectedTab.filter" />
 </template>
 
 <style lang="scss" scoped>
 input[type="checkbox"] {
   width: auto;
+}
+
+select.tabs {
 }
 </style>

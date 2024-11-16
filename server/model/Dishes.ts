@@ -2,6 +2,7 @@ import yaml from "yaml"
 import { randomUUID, type UUID } from "node:crypto"
 import { DishEntity, RawDish, User } from "~/types"
 import { useIngredients } from "./Ingredients"
+import type { H3Event } from "h3"
 
 type Tree = {
   sha: string
@@ -59,6 +60,14 @@ export async function useDishes() {
         }
         throw createError({ status: 500, message: (error as Error).message })
       }
+    },
+
+    getdishIdFromRoute(event: H3Event) {
+      const dishId = getRouterParam(event, "id") as UUID
+      if (!dishes.some(dish => dish.id === dishId)) {
+        throw createError({ status: 400, message: "Unknown dish" })
+      }
+      return dishId
     },
   }
 
