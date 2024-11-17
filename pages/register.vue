@@ -7,7 +7,7 @@ const firstName = ref("")
 const valid = computed(() => firstName.value !== "")
 
 async function register() {
-  if (!isRegistrationAllowed()) {
+  if (isRegistrationAllowed()) {
     try {
       const data = await $fetch("/api/accounts", { method: "post", body: { firstName: firstName.value } })
       const token = useCookie("token")

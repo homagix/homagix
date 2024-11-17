@@ -53,7 +53,7 @@ async function setPwd() {
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
-      <button @click.prevent="router.back">Abbrechen</button>
+      <button v-if="user?.passwordSet" @click.prevent="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Passwort setzen</button>
     </div>
   </form>
