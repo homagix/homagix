@@ -1,29 +1,52 @@
 import type { UUID } from "node:crypto"
 import type { NitroFetchOptions } from "nitropack"
-import type { WordCloud, User, DishListEntry, PublicConfiguration, DishFilter } from "~/types"
+import type { WordCloud, User, DishListEntry, PublicConfiguration } from "~/types"
 
-const user = ref<User | undefined | null>()
+type CurrentUser = User & {
+  favorites: Set<UUID>
+  setFavorite: (dishId: UUID) => Promise<void>
+  removeFavorite: (dishId: UUID) => Promise<void>
+}
+const user = ref<CurrentUser | undefined | null>()
 
 export const useUser = () => {
   const token = useCookie("token")
   async function fetchUser() {
     try {
-      if (!token.value) {
-        user.value = null
-        return
-      }
-      user.value = await $fetch("/api/accounts/my")
-    } catch (err) {
       user.value = null
+      const data = await $fetch("/api/accounts/my")
+      user.value = {
+        ...data,
+        favorites: new Set(data.favorites),
+        async setFavorite(dishId: UUID) {
+          await callApi("/api/favorites/" + dishId, { method: "post" })
+          user.value!.favorites?.add(dishId)
+        },
+        async removeFavorite(dishId: UUID) {
+          await callApi("/api/favorites/" + dishId, { method: "delete" })
+          user.value!.favorites.delete(dishId)
+        },
+      }
+    } catch (err) {
       const message = (err as { data: { message: string } }).data?.message ?? (err as Error).message
       console.error(message)
       if (message === "Token expired") {
-        token.value = undefined
+        token.value = null
       }
     }
   }
 
-  watch(token, async () => await fetchUser(), { immediate: true })
+  if (user.value === undefined && token.value) {
+    fetchUser()
+  }
+
+  watch(token, async (newValue, oldValue) => {
+    if (newValue && oldValue !== newValue) {
+      await fetchUser()
+    } else if (newValue === null) {
+      user.value = null
+    }
+  })
 
   return user
 }
@@ -61,7 +84,7 @@ export const useDishes = async () => {
   }
 
   function addFavoriteFlag(dish: DishListEntry) {
-    return { ...dish, favorite: favorites.value?.has(dish.id) }
+    return { ...dish, favorite: user.value?.favorites?.has(dish.id) }
   }
 
   return {
@@ -76,26 +99,6 @@ export const useConfiguration = async () => {
   }
   return {
     isRegistrationAllowed: () => Boolean(config.value?.allowRegistration),
-  }
-}
-
-const favorites = ref<Set<UUID> | undefined>()
-
-export const useFavorites = async () => {
-  if (favorites.value === undefined) {
-    favorites.value = new Set(await callApi("/api/favorites"))
-  }
-  
-  return {
-    async set(dishId: UUID) {
-      await callApi("/api/favorites/" + dishId, { method: "post" })
-      favorites.value?.add(dishId)
-    },
-
-    async remove(dishId: UUID) {
-      await callApi("/api/favorites/" + dishId, { method: "delete" })
-      favorites.value?.delete(dishId)
-    },
   }
 }
 

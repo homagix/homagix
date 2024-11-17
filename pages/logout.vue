@@ -3,7 +3,7 @@ import { useRouter } from "vue-router"
 
 const router = useRouter()
 const token = useCookie("token")
-token.value = undefined
+token.value = null
 </script>
 
 <template>

@@ -36,7 +36,7 @@ const selectedTab = ref(tabs[0])
     </sup>
   </h2>
 
-  <AppTabs :tabs="tabs" labelField="label" v-model="selectedTab" />
+  <AppTabs v-if="user" :tabs="tabs" labelField="label" v-model="selectedTab" />
 
   <RecipesList :ingredient-name="route.query.ingredient as string" :filter="selectedTab.filter" />
 </template>
@@ -44,8 +44,5 @@ const selectedTab = ref(tabs[0])
 <style lang="scss" scoped>
 input[type="checkbox"] {
   width: auto;
-}
-
-select.tabs {
 }
 </style>
