@@ -14,10 +14,18 @@ const titleAddition = computed(() => (route.query.ingredient ? `mit ${route.quer
 type DishFilter = (dish: DishListEntry) => boolean
 type Tab = { id: string; label: string; filter: DishFilter }
 
+function includesSelectedIngredient(dish: DishListEntry) {
+  const ingredient = (route.query.ingredient as string)?.toLowerCase()
+  if (!ingredient) {
+    return true
+  }
+  return dish.ingredientNames.includes(ingredient)
+}
+
 const tabs: Tab[] = [
-  { id: "all", label: "Alle", filter: () => true },
-  { id: "fav", label: "Favoriten", filter: dish => dish.favorite === true },
-  { id: "my", label: "Eigene", filter: dish => dish.userId === user.value?.id },
+  { id: "all", label: "Alle", filter: includesSelectedIngredient },
+  { id: "fav", label: "Favoriten", filter: dish => dish.favorite === true && includesSelectedIngredient(dish) },
+  { id: "my", label: "Eigene", filter: dish => dish.userId === user.value?.id && includesSelectedIngredient(dish) },
 ]
 
 const selectedTab = ref(tabs[0])
