@@ -6,7 +6,7 @@
     "dev": "nuxt dev",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:coverage": "vitest",
+    "test:coverage": "vitest --run",
     "build": "nuxt build",
     "docker:build": "docker build .",
     "generate": "nuxt generate",
