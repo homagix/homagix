@@ -9,8 +9,8 @@ const formData = ref({
   role: props.user.role,
 })
 
-function saveUser() {
-  users.update(props.user.id, formData.value)
+async function saveUser() {
+  await users.update(props.user.id, formData.value)
 }
 </script>
 

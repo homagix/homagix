@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AppTabs > reacts on tab switches 1`] = `"<span data-v-d9d9d376="" class="tabs"><a data-v-d9d9d376="" class="selected">My tab no 1</a><a data-v-d9d9d376="" class="">My tab no 2</a></span>"`;
+
+exports[`AppTabs > renders as expected 1`] = `"<span data-v-d9d9d376="" class="tabs"><a data-v-d9d9d376="" class="">My tab no 1</a><a data-v-d9d9d376="" class="selected">My tab no 2</a></span>"`;

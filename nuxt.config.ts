@@ -4,33 +4,20 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   nitro: {
     storage: {
-      db: {
-        driver: "fs",
-        base: ".data/kv"
-      },
+      db: { driver: "fs", base: ".data/kv" },
     },
     devStorage: {
-      db: {
-        driver: "fs",
-        base: ".data/kv"
-      }
+      db: { driver: "fs", base: ".data/kv" },
     },
     esbuild: {
-      options: {
-        target: 'esnext'
-      }
-    }
+      options: { target: "esnext" },
+    },
   },
   vite: {
     css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler",
-        },
-      },
+      preprocessorOptions: { scss: { api: "modern-compiler" } },
     },
   },
-  experimental: {
-    asyncContext: true,
-  },
+  modules: ["@nuxt/test-utils/module"],
+  experimental: { asyncContext: true },
 })

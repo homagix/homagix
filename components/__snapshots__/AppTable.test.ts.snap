@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AppTable > renders as expected 1`] = `
+"<table data-v-95accda9="">
+  <thead data-v-95accda9="">
+    <tr data-v-95accda9="">
+      <th data-v-95accda9="">First name</th>
+      <th data-v-95accda9="">Repository</th>
+    </tr>
+  </thead>
+  <tbody data-v-95accda9="">
+    <tr data-v-95accda9="">{"firstName":"Arnie","repo":"https://github.com/arnie/recipes"}</tr>
+    <tr data-v-95accda9="">{"firstName":"John","repo":"https://github.com/john/recipes"}</tr>
+  </tbody>
+</table>"
+`;

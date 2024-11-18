@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UserListEntry > should render as expected 1`] = `
+"<td data-v-769e4ae7="">arnold</td>
+<td data-v-769e4ae7="">https://github.com/arnold/t100</td>
+<td data-v-769e4ae7=""><select data-v-769e4ae7="">
+    <option data-v-769e4ae7="">reader</option>
+    <option data-v-769e4ae7="" selected="">author</option>
+    <option data-v-769e4ae7="">admin</option>
+  </select></td>"
+`;

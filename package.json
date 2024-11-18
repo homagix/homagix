@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "test": "echo 'tests not yet existing'",
-    "test:coverage": "echo 'tests not yet existing'",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest",
     "build": "nuxt build",
     "docker:build": "docker build .",
     "generate": "nuxt generate",
@@ -20,10 +21,15 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "6.6.0",
+    "@nuxt/test-utils": "3.14.4",
     "@types/jsonwebtoken": "9.0.7",
+    "@vue/test-utils": "2.4.6",
     "chart.js": "4.4.6",
     "chartjs-chart-wordcloud": "4.4.4",
+    "happy-dom": "15.11.6",
     "jsonwebtoken": "9.0.2",
+    "playwright-core": "1.48.2",
+    "vitest": "2.1.5",
     "vue-showdown": "4.2.0",
     "yaml": "2.6.0"
   }
