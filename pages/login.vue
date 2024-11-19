@@ -9,6 +9,7 @@ const password = ref("")
 const valid = computed(() => isValidPassword(password.value))
 
 async function login() {
+  debugger
   try {
     token.value = undefined
     const result = await $fetch("/api/sessions", {

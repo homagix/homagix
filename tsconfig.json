@@ -1,5 +1,8 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
-  "files": ["shim.d.ts"]
+  "files": ["shim.d.ts"],
+  "compilerOptions": {
+    "types": ["@testing-library/jest-dom"]
+  }
 }

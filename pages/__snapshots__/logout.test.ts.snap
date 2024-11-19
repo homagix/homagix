@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LogoutPage component > renders the title and description 1`] = `
+"<h2>Ciao!</h2>
+<p>Wir hoffen, Dich bald wiederzusehen!</p>
+<div class="button-list"><button id="recipes-button">Zu den Rezepten</button></div>"
+`;

@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LoginPage component > renders the title and description 1`] = `
+"<h2 data-v-e8ce220f="" class="title is-4">Willkommen!</h2>
+<p data-v-e8ce220f="">Du bist bereits registriert? Gib' bitte deinen Vornamen und dein Passwort an:</p>
+<form data-v-e8ce220f="">
+  <div data-v-e8ce220f="" class="fields"><label data-v-e8ce220f="" for="login-firstname"> Vorname </label><input data-v-e8ce220f="" id="login-firstname" type="text" placeholder="Vorname"><label data-v-e8ce220f="" for="login-password"> Passwort </label><input data-v-e8ce220f="" id="login-password" type="password" class="" placeholder="Passwort"></div>
+  <div data-v-e8ce220f="" class="error"></div>
+  <div data-v-e8ce220f="" class="button-list"><button data-v-e8ce220f="" type="submit" disabled="">Einloggen</button></div>
+</form>
+<p data-v-e8ce220f="">Du willst dich neu registrieren? Dann geht's <a data-v-e8ce220f="">hier entlang</a></p>"
+`;
