@@ -25,7 +25,7 @@
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/vue": "8.1.0",
     "@types/jsonwebtoken": "9.0.7",
-    "@types/testing-library__dom": "7.0.2",
+    "@types/testing-library__dom": "7.5.0",
     "@vue/test-utils": "2.4.6",
     "chart.js": "4.4.6",
     "chartjs-chart-wordcloud": "4.4.4",
