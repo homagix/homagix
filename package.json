@@ -20,7 +20,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "6.6.0",
+    "@fortawesome/fontawesome-free": "6.7.0",
     "@nuxt/test-utils": "3.14.4",
     "@types/jsonwebtoken": "9.0.7",
     "@vue/test-utils": "2.4.6",
@@ -28,7 +28,7 @@
     "chartjs-chart-wordcloud": "4.4.4",
     "happy-dom": "15.11.6",
     "jsonwebtoken": "9.0.2",
-    "playwright-core": "1.48.2",
+    "playwright-core": "1.49.0",
     "vitest": "2.1.5",
     "vue-showdown": "4.2.0",
     "yaml": "2.6.0"
