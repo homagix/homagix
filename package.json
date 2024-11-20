@@ -15,7 +15,7 @@
     "update": "npx -y npm-check-updates -du"
   },
   "dependencies": {
-    "nuxt": "^3.14.159",
+    "nuxt": "^3.14.1592",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -25,7 +25,7 @@
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/vue": "8.1.0",
     "@types/jsonwebtoken": "9.0.7",
-    "@types/testing-library__dom": "7.0.2",
+    "@types/testing-library__dom": "7.5.0",
     "@vue/test-utils": "2.4.6",
     "chart.js": "4.4.6",
     "chartjs-chart-wordcloud": "4.4.4",
@@ -34,6 +34,6 @@
     "playwright-core": "1.49.0",
     "vitest": "2.1.5",
     "vue-showdown": "4.2.0",
-    "yaml": "2.6.0"
+    "yaml": "2.6.1"
   }
 }
