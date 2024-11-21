@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["close"])
 
-const user = useUser()
+const { currentUser } = useCurrentUser()
 const route = useRoute()
 const config = await useConfiguration()
 
@@ -12,15 +12,15 @@ onBeforeMount(() => window.addEventListener("click", sendClose))
 onBeforeUnmount(() => window.removeEventListener("click", sendClose))
 
 function canEditSettings() {
-  return user.value && user.value.role !== "reader"
+  return currentUser.value && currentUser.value.role !== "reader"
 }
 
 function canRegister() {
-  return !user.value && config.isRegistrationAllowed()
+  return !currentUser.value && config.isRegistrationAllowed()
 }
 
 function isAdmin() {
-  return user.value?.role === "admin"
+  return currentUser.value?.role === "admin"
 }
 </script>
 
@@ -30,15 +30,15 @@ function isAdmin() {
     <!-- <router-link to="/favorites"> Favoriten </router-link> -->
 
     <hr v-if="!isRootRoute" />
-    
-    <router-link v-if="user" to="/setpwd">Passwort ändern</router-link>
+
+    <router-link v-if="currentUser" to="/setpwd">Passwort ändern</router-link>
     <router-link v-if="canEditSettings()" to="/settings">Einstellungen</router-link>
     <router-link v-if="isAdmin()" to="/userlist"> Benutzerliste </router-link>
 
-    <hr v-if="user" />
+    <hr v-if="currentUser" />
 
-    <router-link v-if="user" to="/logout">Abmelden</router-link>
-    <router-link v-if="!user" to="/login">Einloggen</router-link>
+    <router-link v-if="currentUser" to="/logout">Abmelden</router-link>
+    <router-link v-if="!currentUser" to="/login">Einloggen</router-link>
     <router-link v-if="canRegister()" to="/register"> Registrieren </router-link>
   </div>
 </template>

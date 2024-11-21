@@ -3,7 +3,7 @@ import type { DishListEntry } from "~/types"
 const dishes = ref<DishListEntry[] | undefined>(undefined)
 
 export const useDishes = async () => {
-  const user = useUser()
+  const {currentUser} = useCurrentUser()
 
   if (dishes.value === undefined) {
     const data = (await callApi("/api/dishes")) as { dishes: DishListEntry[] }
@@ -11,7 +11,7 @@ export const useDishes = async () => {
   }
 
   function addFavoriteFlag(dish: DishListEntry) {
-    return { ...dish, favorite: user.value?.favorites?.has(dish.id) }
+    return { ...dish, favorite: currentUser.value?.favorites?.has(dish.id) }
   }
 
   return {

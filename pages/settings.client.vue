@@ -2,10 +2,10 @@
 import { isValidURL } from "~/utils/Validations"
 
 const router = useRouter()
-const user = useUser()
+const { currentUser } = useCurrentUser()
 const messages = useMessages()
 
-const repository = ref(user.value?.repository || "")
+const repository = ref(currentUser.value?.repository || "")
 
 const valid = computed(() => repository.value === "" || isValidURL(repository.value))
 const webhookURL = computed(() => `${window.origin}/api/webhooks/`)
@@ -14,7 +14,7 @@ async function save() {
   try {
     const data = await $fetch("/api/accounts", {
       method: "put",
-      body: { id: user.value?.id, repository: repository.value },
+      body: { id: currentUser.value?.id, repository: repository.value },
     })
     const token = useCookie("token")
     token.value = data.token
@@ -32,13 +32,13 @@ function copy2Clipboard(event: Event) {
   const el = event.target as HTMLElement
   el.style.backgroundColor = "lightgrey"
   setTimeout(() => (el.style.backgroundColor = ""), 500)
-  navigator.clipboard.writeText(webhookURL.value + user.value!.id)
+  navigator.clipboard.writeText(webhookURL.value + currentUser.value!.id)
 }
 </script>
 
 <template>
   <h2 class="title">Einstellungen</h2>
-  <p>Hallo {{ user?.firstName }}!</p>
+  <p>Hallo {{ currentUser?.firstName }}!</p>
   <p>Hier kannst du ein GitHub Repository angeben, in dem deine eigenen Rezepte liegen.</p>
 
   <form @submit.prevent="save">
@@ -55,7 +55,7 @@ function copy2Clipboard(event: Event) {
       </p>
 
       <div class="paste-box" @click="copy2Clipboard">
-        <code>{{ webhookURL }}{{ user?.id }}</code>
+        <code>{{ webhookURL }}{{ currentUser?.id }}</code>
       </div>
     </div>
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const router = useRouter()
-const user = useUser()
+const { currentUser } = useCurrentUser()
 const messages = useMessages()
 
-if (!user.value) {
+if (!currentUser.value) {
   router.replace("/")
 }
 
-const newPassword = computed(() => !user.value?.passwordSet)
+const newPassword = computed(() => !currentUser.value?.passwordSet)
 const currentPassword = ref("")
 const password = ref("")
 
@@ -17,7 +17,7 @@ async function setPwd() {
   try {
     const data = await $fetch("/api/accounts", {
       method: "put",
-      body: { id: user.value?.id, password: password.value, currentPassword: currentPassword.value },
+      body: { id: currentUser.value?.id, password: password.value, currentPassword: currentPassword.value },
     })
     const token = useCookie("token")
     token.value = data.token
@@ -30,14 +30,14 @@ async function setPwd() {
 
 <template>
   <h2 class="title">Passwort {{ newPassword ? "setzen" : "ändern" }}</h2>
-  <p>Hallo {{ user?.firstName }}!</p>
+  <p>Hallo {{ currentUser?.firstName }}!</p>
   <p>Gib' ein Passwort an, mit dem du dich künftig einloggen willst.</p>
 
   <form @submit.prevent="setPwd">
     <div class="fields">
-      <label v-if="user?.passwordSet" for="setpwd-current"> Bisheriges Passwort </label>
+      <label v-if="currentUser?.passwordSet" for="setpwd-current"> Bisheriges Passwort </label>
       <input
-        v-if="user?.passwordSet"
+        v-if="currentUser?.passwordSet"
         v-model="currentPassword"
         id="setpwd-current"
         type="password"
@@ -53,7 +53,7 @@ async function setPwd() {
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
-      <button v-if="user?.passwordSet" @click.prevent="router.back">Abbrechen</button>
+      <button v-if="currentUser?.passwordSet" @click.prevent="router.back">Abbrechen</button>
       <button type="submit" :disabled="!valid">Passwort setzen</button>
     </div>
   </form>

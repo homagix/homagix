@@ -3,6 +3,11 @@ import type { User } from "~/types"
 
 const users = await useUsers()
 const router = useRouter()
+const { currentUser } = useCurrentUser()
+
+if (!currentUser.value) {
+  router.replace("/")
+}
 
 const allUsers = users.getAll().value || []
 </script>

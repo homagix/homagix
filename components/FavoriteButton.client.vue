@@ -3,13 +3,13 @@ import type { DishListEntry } from "~/types"
 
 defineProps<{ dish: DishListEntry }>()
 
-const user = useUser()
+const { currentUser, setFavorite, removeFavorite } = useCurrentUser()
 </script>
 
 <template>
-  <span class="fav-button" v-if="user">
-    <a v-if="dish.favorite === false" @click="user.setFavorite(dish.id)">☆</a>
-    <a v-if="dish.favorite === true" @click="user.removeFavorite(dish.id)">★</a>
+  <span class="fav-button" v-if="currentUser">
+    <a v-if="dish.favorite === false" @click="setFavorite(dish.id)">☆</a>
+    <a v-if="dish.favorite === true" @click="removeFavorite(dish.id)">★</a>
   </span>
 </template>
 

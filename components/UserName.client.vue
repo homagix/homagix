@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const user = useUser()
+const { currentUser } = useCurrentUser()
 </script>
 
 <template>
-  <div class="username" v-if="user">{{ user.firstName }}</div>
+  <div class="username" v-if="currentUser">{{ currentUser.firstName }}</div>
 </template>

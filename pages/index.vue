@@ -3,7 +3,7 @@ import type { DishListEntry } from "~/types"
 
 const router = useRouter()
 const route = useRoute()
-const user = useUser()
+const {currentUser} = useCurrentUser()
 
 function gotoWordCloud() {
   router.push("/ingredients-wordcloud")
@@ -25,7 +25,7 @@ function includesSelectedIngredient(dish: DishListEntry) {
 const tabs: Tab[] = [
   { id: "all", label: "Alle", filter: includesSelectedIngredient },
   { id: "fav", label: "Favoriten", filter: dish => dish.favorite === true && includesSelectedIngredient(dish) },
-  { id: "my", label: "Eigene", filter: dish => dish.userId === user.value?.id && includesSelectedIngredient(dish) },
+  { id: "my", label: "Eigene", filter: dish => dish.userId === currentUser.value?.id && includesSelectedIngredient(dish) },
 ]
 
 const selectedTab = ref(tabs[0])
@@ -44,7 +44,7 @@ const selectedTab = ref(tabs[0])
     </sup>
   </h2>
 
-  <AppTabs v-if="user" :tabs="tabs" labelField="label" v-model="selectedTab" />
+  <AppTabs v-if="currentUser" :tabs="tabs" labelField="label" v-model="selectedTab" />
 
   <RecipesList :ingredient-name="route.query.ingredient as string" :filter="selectedTab.filter" />
 </template>
