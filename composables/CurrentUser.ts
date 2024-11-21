@@ -36,7 +36,7 @@ export function useCurrentUser() {
       fetchUser()
     }
 
-    watch(token, async (newValue, oldValue) => {
+    watch(() => token.value, async (newValue, oldValue) => {
       if (newValue && oldValue !== newValue) {
         await fetchUser()
       } else if (newValue === null) {
@@ -71,6 +71,7 @@ export function useCurrentUser() {
       await callApi("/api/favorites/" + dishId, { method: "post" })
       currentUser.value!.favorites?.add(dishId)
     },
+
     async removeFavorite(dishId: UUID) {
       await callApi("/api/favorites/" + dishId, { method: "delete" })
       currentUser.value!.favorites.delete(dishId)

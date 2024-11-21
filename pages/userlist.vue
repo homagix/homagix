@@ -3,9 +3,9 @@ import type { User } from "~/types"
 
 const users = await useUsers()
 const router = useRouter()
-const { currentUser } = useCurrentUser()
+const { assertRole } = useCurrentUser()
 
-if (!currentUser.value) {
+if (!assertRole("admin")) {
   router.replace("/")
 }
 

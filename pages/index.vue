@@ -3,7 +3,7 @@ import type { DishListEntry } from "~/types"
 
 const router = useRouter()
 const route = useRoute()
-const {currentUser} = useCurrentUser()
+const { currentUser } = useCurrentUser()
 
 function gotoWordCloud() {
   router.push("/ingredients-wordcloud")
@@ -14,7 +14,7 @@ const titleAddition = computed(() => (route.query.ingredient ? `mit ${route.quer
 type DishFilter = (dish: DishListEntry) => boolean
 type Tab = { id: string; label: string; filter: DishFilter }
 
-function includesSelectedIngredient(dish: DishListEntry) {
+function includesIngredientFilter(dish: DishListEntry) {
   const ingredient = (route.query.ingredient as string)?.toLowerCase()
   if (!ingredient) {
     return true
@@ -22,10 +22,18 @@ function includesSelectedIngredient(dish: DishListEntry) {
   return dish.ingredientNames.includes(ingredient)
 }
 
+function ownDishesFilter(dish: DishListEntry) {
+  return dish.userId === currentUser.value?.id && includesIngredientFilter(dish)
+}
+
+function favoritesFilter(dish: DishListEntry) {
+  return dish.favorite === true && includesIngredientFilter(dish)
+}
+
 const tabs: Tab[] = [
-  { id: "all", label: "Alle", filter: includesSelectedIngredient },
-  { id: "fav", label: "Favoriten", filter: dish => dish.favorite === true && includesSelectedIngredient(dish) },
-  { id: "my", label: "Eigene", filter: dish => dish.userId === currentUser.value?.id && includesSelectedIngredient(dish) },
+  { id: "all", label: "Alle", filter: includesIngredientFilter },
+  { id: "fav", label: "Favoriten", filter: favoritesFilter },
+  { id: "my", label: "Eigene", filter: ownDishesFilter },
 ]
 
 const selectedTab = ref(tabs[0])

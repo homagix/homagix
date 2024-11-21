@@ -3,5 +3,5 @@ const { currentUser } = useCurrentUser()
 </script>
 
 <template>
-  <div class="username" v-if="currentUser">{{ currentUser.firstName }}</div>
+  <span class="username" v-if="currentUser">{{ currentUser.firstName }}</span>
 </template>
