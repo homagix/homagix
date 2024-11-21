@@ -1,26 +1,14 @@
 <script setup lang="ts">
-const router = useRouter()
 const messages = useMessages()
-const token = useCookie("token")
+const { login } = useCurrentUser()
 
 const firstName = ref("")
 const password = ref("")
 
 const valid = computed(() => isValidPassword(password.value))
 
-async function login() {
-  debugger
-  try {
-    token.value = undefined
-    const result = await $fetch("/api/sessions", {
-      method: "post",
-      body: { firstName: firstName.value, password: password.value },
-    })
-    token.value = result.token
-    router.replace("/")
-  } catch (error) {
-    messages.setServerError(error)
-  }
+function submit() {
+  login(firstName.value, password.value)
 }
 </script>
 
@@ -28,7 +16,7 @@ async function login() {
   <h2 class="title is-4">Willkommen!</h2>
   <p>Du bist bereits registriert? Gib' bitte deinen Vornamen und dein Passwort an:</p>
 
-  <form @submit.prevent="login">
+  <form @submit.prevent="submit">
     <div class="fields">
       <label for="login-firstname"> Vorname </label>
       <input id="login-firstname" v-model="firstName" type="text" placeholder="Vorname" @keypress="messages.reset" />
@@ -47,7 +35,7 @@ async function login() {
     <div class="error">{{ messages.get() }}</div>
 
     <div class="button-list">
-      <button type="submit" :disabled="!valid">Einloggen</button>
+      <button type="submit" :disabled="!valid" @click="submit">Einloggen</button>
     </div>
   </form>
 

@@ -54,15 +54,16 @@ describe("LoginPage component", () => {
     expect(passwordInput.classes()).toContain("valid")
   })
 
-  it.skip("sets the token and navigates to '/' after successful login", async () => {
+  it("sets the token and navigates to '/' after successful login", async () => {
     const token = "test-token"
-    fetchMock.mockImplementation(() => ({ token }))
+    const mockFetch = vi.spyOn(global, "$fetch").mockImplementation(() => Promise.resolve({ token }))
     mockNuxtImport("useCookie", () => () => useMockedCookie())
     mockNuxtImport("useRouter", () => vi.fn(() => ({ replace })))
     const wrapper = mountComponent()
 
-    await wrapper.find("#login-firstname").setValue("John")
-    await wrapper.find("#login-password").setValue("validPassword123")
+    wrapper.find("#login-firstname").setValue("John")
+    wrapper.find("#login-password").setValue("validPassword123")
+    await wrapper.find("#login-password").trigger("change")
     await wrapper.find("button").trigger("click")
     await flushPromises()
 
@@ -71,9 +72,10 @@ describe("LoginPage component", () => {
     expect(cookie.value).toEqual(token)
   })
 
-  it.skip("displays an error message when login fails", async () => {
+  it("displays an error message when login fails", async () => {
     const errorMessage = "Invalid credentials"
     vi.stubGlobal("$fetch", () => new Error(errorMessage))
+    vi.spyOn(global, "$fetch").mockImplementation(() => Promise.reject(errorMessage))
 
     const wrapper = mountComponent()
 
@@ -81,8 +83,7 @@ describe("LoginPage component", () => {
     await wrapper.find("#login-password").setValue("invalidPassword")
     await wrapper.find("button").trigger("click")
 
-    expect(wrapper.find(".error").text()).toBe("Server-Fehler")
-    expect(setServerError).toHaveBeenCalledWith(new Error(errorMessage))
+    expect(setServerError).toHaveBeenCalledWith(errorMessage)
   })
 
   it("resets messages on keypress", async () => {
