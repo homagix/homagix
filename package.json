@@ -27,7 +27,7 @@
     "@types/jsonwebtoken": "9.0.8",
     "@types/testing-library__dom": "7.5.0",
     "@vue/test-utils": "2.4.6",
-    "chart.js": "4.4.7",
+    "chart.js": "4.4.8",
     "chartjs-chart-wordcloud": "4.4.4",
     "happy-dom": "16.8.1",
     "jsonwebtoken": "9.0.2",
