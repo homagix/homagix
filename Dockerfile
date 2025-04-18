@@ -3,23 +3,13 @@
 ARG NODE_VERSION=22
 ARG PORT=3000
 
-FROM node:${NODE_VERSION}-alpine AS base
-WORKDIR /app
-
-### build stage
-FROM base AS build
-
-COPY --link package.json ./
-RUN npm install
+FROM node:${NODE_VERSION}-alpine
+WORKDIR /build
 
 COPY --link . .
-RUN npm run build
+RUN npm install && npm run build && mv .output /app && rm -rf /build
 
-### run stage
-FROM base
-
+WORKDIR /app
 ENV NODE_ENV=production
-
-COPY --from=build /app/.output /app
 
 CMD [ "node", "server/index.mjs" ]
