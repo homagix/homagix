@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { Configuration, PublicConfiguration } from "~/types"
 
-export const appRoot = existsSync("config.json") ? "." : resolve(import.meta.dirname, "..", "..")
+export const appRoot = existsSync("config.json") ? "." : import.meta.dirname ? resolve(import.meta.dirname, "..", "..") : __dirname
 export const config = JSON.parse(readFileSync(resolve(appRoot, "config.json")).toString()) as Configuration
 
 export function getJwtSecret() {

@@ -75,12 +75,14 @@ function validateUpdateFields(user: User, data: UpdateUserData, authUser: User) 
   if (data.role && authUser.role !== "admin") {
     throw createError({ status: 403, message: "Not allowed to update role field" })
   }
-  if (data.password && user.password) {
-    if (!data.currentPassword) {
-      throw createError({ statusCode: 400, message: "Missing current password" })
-    }
-    if (!validatePassword(user.password!, data.currentPassword!)) {
-      throw createError({ statusCode: 400, message: "Current password does not match" })
+  if (data.password) {  // a new password is set
+    if (user.password) {  // the user already has a password
+      if (!data.currentPassword) {  // the user has not provided the current password
+        throw createError({ statusCode: 400, message: "Missing current password" })
+      }
+      if (!validatePassword(user.password!, data.currentPassword!)) {
+        throw createError({ statusCode: 400, message: "Current password does not match" })
+      }
     }
     data.password = hashPassword(data.password)
   }
