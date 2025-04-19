@@ -1,13 +1,11 @@
 # syntax = docker/dockerfile:1
 
 ARG NODE_VERSION=22
+ARG NPM_VERSION=11
 ARG PORT=3000
 
 FROM node:${NODE_VERSION}-alpine
-RUN apk update && \
-    apk upgrade && \
-    apk add npm>=11 && \
-    npm -v
+RUN npm install -g npm@${NPM_VERSION}
 WORKDIR /build
 
 COPY --link . .
