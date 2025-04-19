@@ -6,7 +6,8 @@ ARG PORT=3000
 FROM node:${NODE_VERSION}-alpine
 RUN apk update && \
     apk upgrade && \
-    apk add npm>=11
+    apk add npm>=11 && \
+    npm -v
 WORKDIR /build
 
 COPY --link . .
