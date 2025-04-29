@@ -15,7 +15,7 @@
     "update": "npx -y npm-check-updates -du"
   },
   "dependencies": {
-    "nuxt": "^3.17.0",
+    "nuxt": "^3.17.1",
     "vue": "latest",
     "vue-router": "latest"
   },
