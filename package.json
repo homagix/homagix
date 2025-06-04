@@ -15,7 +15,7 @@
     "update": "npx -y npm-check-updates -du"
   },
   "dependencies": {
-    "nuxt": "^3.17.4",
+    "nuxt": "^3.17.5",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -27,11 +27,11 @@
     "@vue/test-utils": "2.4.6",
     "chart.js": "4.4.9",
     "chartjs-chart-wordcloud": "4.4.4",
-    "happy-dom": "17.6.1",
+    "happy-dom": "17.6.3",
     "jsonwebtoken": "9.0.2",
     "playwright-core": "1.52.0",
     "sass-embedded": "1.89.0",
-    "vitest": "3.2.0",
+    "vitest": "3.2.1",
     "vue-showdown": "4.2.0",
     "yaml": "2.8.0"
   },
