@@ -30,7 +30,7 @@
     "happy-dom": "17.6.3",
     "jsonwebtoken": "9.0.2",
     "playwright-core": "1.52.0",
-    "sass-embedded": "1.89.0",
+    "sass-embedded": "1.89.2",
     "vitest": "3.2.2",
     "vue-showdown": "4.2.0",
     "yaml": "2.8.0"
