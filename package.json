@@ -15,7 +15,7 @@
     "update": "npx -y npm-check-updates -du"
   },
   "dependencies": {
-    "nuxt": "^3.17.7",
+    "nuxt": "^4.0.0",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -36,7 +36,7 @@
     "yaml": "2.8.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.45.0",
+    "@rollup/rollup-linux-x64-gnu": "4.45.1",
     "sass-embedded-linux-x64": "1.89.2"
   },
   "engines": {
