@@ -33,7 +33,7 @@
     "sass-embedded": "1.89.2",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
-    "yaml": "2.8.0"
+    "yaml": "2.8.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.46.2",
