@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup nodejs version
         uses: actions/setup-node@v6
         with:
@@ -41,7 +41,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup nodejs version
         uses: actions/setup-node@v6
         with:
@@ -63,7 +63,7 @@ jobs:
       - unit-tests
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v5
