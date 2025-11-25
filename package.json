@@ -29,7 +29,7 @@
     "chartjs-chart-wordcloud": "4.4.5",
     "happy-dom": "20.0.10",
     "jsonwebtoken": "9.0.2",
-    "playwright-core": "1.56.1",
+    "playwright-core": "1.57.0",
     "sass-embedded": "1.93.3",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
