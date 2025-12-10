@@ -15,7 +15,7 @@
     "update": "npx -y npm-check-updates -du"
   },
   "dependencies": {
-    "nuxt": "^4.2.1",
+    "nuxt": "^4.2.2",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -30,14 +30,14 @@
     "happy-dom": "20.0.11",
     "jsonwebtoken": "9.0.3",
     "playwright-core": "1.57.0",
-    "sass-embedded": "1.93.3",
+    "sass-embedded": "1.95.1",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
     "yaml": "2.8.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.53.3",
-    "sass-embedded-linux-x64": "1.93.3"
+    "sass-embedded-linux-x64": "1.95.1"
   },
   "engines": {
     "node": ">=24.0.0",
