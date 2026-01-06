@@ -37,7 +37,7 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.54.0",
-    "sass-embedded-linux-x64": "1.97.1"
+    "sass-embedded-linux-x64": "1.97.2"
   },
   "engines": {
     "node": ">=24.0.0",
