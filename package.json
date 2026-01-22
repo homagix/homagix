@@ -30,14 +30,14 @@
     "happy-dom": "20.3.4",
     "jsonwebtoken": "9.0.3",
     "playwright-core": "1.57.0",
-    "sass-embedded": "1.97.2",
+    "sass-embedded": "1.97.3",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
     "yaml": "2.8.2"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.55.2",
-    "sass-embedded-linux-x64": "1.97.2"
+    "@rollup/rollup-linux-x64-gnu": "4.55.3",
+    "sass-embedded-linux-x64": "1.97.3"
   },
   "engines": {
     "node": ">=24.0.0",
