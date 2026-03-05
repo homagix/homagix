@@ -31,7 +31,7 @@
     "jsonwebtoken": "9.0.3",
     "playwright-core": "1.58.2",
     "sass-embedded": "1.97.3",
-    "vitest": "3.2.4",
+    "vitest": "4.0.18",
     "vue-showdown": "4.2.0",
     "yaml": "2.8.2"
   },
