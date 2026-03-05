@@ -20,7 +20,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@nuxt/test-utils": "3.23.0",
+    "@nuxt/test-utils": "4.0.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/vue": "8.1.0",
     "@types/jsonwebtoken": "9.0.10",
