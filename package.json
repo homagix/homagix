@@ -29,11 +29,11 @@
     "chartjs-chart-wordcloud": "4.4.5",
     "happy-dom": "20.9.0",
     "jsonwebtoken": "9.0.3",
-    "playwright-core": "1.59.1",
+    "playwright-core": "1.60.0",
     "sass-embedded": "1.99.0",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
-    "yaml": "2.8.4"
+    "yaml": "2.9.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.60.3",
