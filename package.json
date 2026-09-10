@@ -27,7 +27,7 @@
     "@vue/test-utils": "2.5.0",
     "chart.js": "4.5.1",
     "chartjs-chart-wordcloud": "4.4.5",
-    "happy-dom": "20.14.0",
+    "happy-dom": "20.14.3",
     "jsonwebtoken": "9.0.3",
     "playwright-core": "1.63.0",
     "sass-embedded": "1.104.0",
