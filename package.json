@@ -27,17 +27,17 @@
     "@vue/test-utils": "2.5.1",
     "chart.js": "4.5.1",
     "chartjs-chart-wordcloud": "4.4.5",
-    "happy-dom": "21.0.3",
+    "happy-dom": "21.0.4",
     "jsonwebtoken": "9.0.3",
     "playwright-core": "1.64.1",
-    "sass-embedded": "1.105.2",
+    "sass-embedded": "1.106.0",
     "vitest": "3.2.4",
     "vue-showdown": "4.2.0",
     "yaml": "2.9.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.64.12",
-    "sass-embedded-linux-x64": "1.105.2"
+    "sass-embedded-linux-x64": "1.106.0"
   },
   "engines": {
     "node": ">=24.0.0",
