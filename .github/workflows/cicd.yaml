@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Setup nodejs version
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: lts/*
           check-latest: true
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Setup nodejs version
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: lts/*
           check-latest: true
